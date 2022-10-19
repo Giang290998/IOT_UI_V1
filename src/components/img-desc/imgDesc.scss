@@ -1,0 +1,36 @@
+
+.item-wrapper.dark {
+    &:hover {
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.12);
+    }
+    .desc {
+        color: #e4e6eb;
+    }
+}
+.item-wrapper {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    border-radius: 6px;
+    &:hover {
+        cursor: pointer;
+        background-color: rgba(0, 0, 0, 0.08);
+    }
+    .img-wrapper {
+        padding-left: 10px;
+        margin-right: 11px;
+        position: relative;
+        .img {
+            width: 40px;
+            height: 40px;
+            margin-top: 4px;
+            border-radius: 50%;
+        }
+    }
+    .desc {
+        font-size: 16px;
+        font-weight: 500;
+    }
+}
+

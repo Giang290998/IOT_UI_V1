@@ -1,0 +1,23 @@
+.home-wrapper.dark {
+    background-color: #18191a;
+}
+.home-wrapper {
+    background-color: #f1faff;
+    .grid.home-page {
+        .row.content {
+            display: flex;
+            margin: 0;
+            .content {
+                z-index: 1;
+                min-height: 100vh;
+                margin-top: 74px;
+            }
+        }
+    }
+}
+
+@media (max-width: 799px) {
+    .right-bar {
+        width: 0%;
+    }
+}

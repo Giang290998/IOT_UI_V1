@@ -1,0 +1,97 @@
+
+@import '../../common/css/base.scss';
+
+.leftbar-wrapper.dark {
+    .leftbar-list {
+        border-top: 2px solid rgba(255, 255, 255, 0.3);
+        .leftbar-item {
+            color: #e4e6eb;
+            &:hover {
+                cursor: pointer;
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+        }
+    }
+}
+.leftbar-wrapper {
+    margin-left: 8px;
+    width: 340px;
+    position: fixed;
+    left: 0;
+    top: var(--topbar-height);
+    height: calc(100vh - var(--topbar-height));
+    overflow-y: scroll;
+    @include scrollbarCustom;
+    animation: leftIn ease 0.6s;
+    @keyframes leftIn {
+        0% {
+            transform: translateX(-100%);
+        }
+        100% {
+            transform: translateX(0);
+        }
+    }
+    .leftbar-list {
+        padding-left: 0;
+        border-top: 2px solid rgba(0, 0, 0, 0.3);
+        list-style: none;
+        max-height: calc(100vh - var(--topbar-height));
+        .item-wapper {
+            padding-left: 7px;
+            margin-top: 10px;
+        }
+        .leftbar-item {
+            display: flex;
+            font-size: 1.6rem;
+            margin: 4px 0;
+            font-weight: 500;
+            color: var(--text-color);
+            border-radius: 6px;
+            &:hover {
+                cursor: pointer;
+                background-color: rgba(0, 0, 0, 0.08);
+            }
+            div {
+                display: flex;
+                align-items: center;
+                height: 50px;
+                div{
+                    padding-left: 20px;
+                    width: 66px;
+                    .icon {
+                        color: blue;
+                        font-size: 2.6rem;
+                    }
+                    .friend-icon {
+                        color: rgb(118, 118, 255);
+                    }
+                    .memories-icon {
+                        font-size: 2.7rem;
+                        color: orangered;
+                    }
+                    .star-icon {
+                        font-size: 2.8rem;
+                        color: rgb(244, 199, 0);
+                    }
+                }
+                
+                span {
+                    font-size: 1.7rem;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 1113px) and (max-width: 1290px) {
+    .leftbar-wrapper {
+        width: 280px;
+    }
+}
+
+@media (max-width: 1112px) {
+    .leftbar-wrapper {
+        display: none;
+    }
+}
+

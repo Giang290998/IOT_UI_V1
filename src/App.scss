@@ -1,0 +1,10 @@
+@import './common/css/base.scss';
+@import './common/css/grid.scss';
+
+.app.dark {
+    background-color: #323232;
+}
+.app {
+    background-color: #fff;
+    overflow-x: hidden;
+}

@@ -1,0 +1,61 @@
+
+.text-input-medium {
+    .input-title {
+        padding-bottom: 2px;
+        color: black;
+    }
+    .wrapper-input {
+        position: relative;
+        .input {
+            width: 100%;
+            height: 50px;
+            padding-left: 14px;
+            font-size: 1.6rem;
+            border-radius: 4px;
+            border: 2px solid rgba(0, 0, 0, 0.25);
+            &:hover {
+                border: 2px solid rgba(0, 0, 0, 0.45);
+            }
+            &:focus {
+                outline-color: blue;
+            }
+        }
+        .input.error {
+            border: 2px solid red;
+            &:focus {
+                outline-color: red;
+            }
+        }
+        .input.warning {
+            border: 2px solid orange;
+            &:focus {
+                outline-color: orange;
+            }
+        }
+        .icon {
+            position: absolute;
+            font-size: 20px;
+            right: 10px;
+            top: 30%;
+        }
+        .icon.hidden {
+            display: none;
+        }
+        .icon.error {
+            color: red;
+        }
+        .icon.warning {
+            color: orange;
+        }
+    }
+    .input-desc {
+        padding-left: 14px;
+        font-size: 1.2rem;
+    }
+    .input-desc.error {
+        color: red;
+    }
+    .input-desc.warning {
+        color: orange;
+    }
+}

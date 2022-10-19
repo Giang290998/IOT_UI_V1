@@ -1,0 +1,58 @@
+
+.reply-child-comment.dark {
+    .reply-child-comment-content{
+        &::after {
+            border-left: 2px solid #797979;
+            border-bottom: 2px solid #797979;
+        }
+    }
+    .border-reply-child-comment {
+        background-color: #797979;
+    }
+    .border-reply-child-comment.show-reply {
+        &::after {
+            border-left: 2px solid #797979;
+            border-bottom: 2px solid #797979;
+        }
+    }
+}
+.reply-child-comment {
+    position: relative;
+    .reply-child-comment-content{
+        position: relative;
+        &::after {
+            position: absolute;
+            content: "";
+            width: 24px;
+            height: 50px;
+            border-bottom-left-radius: 30px;
+            border-left: 2px solid rgb(190, 190, 190);
+            border-bottom: 2px solid rgb(190, 190, 190);
+            top: -30px;
+            left: -32px;
+        }
+    }
+    .border-reply-child-comment {
+        position: absolute;
+        bottom: 0px;
+        left: -32px;
+        width: 2px;
+        height: calc(100% + 8px);
+        background-color: rgb(190, 190, 190);
+    }
+    .border-reply-child-comment.only-one {
+        bottom: 100%;
+    }
+    .border-reply-child-comment.show-reply {
+        &::after {
+            position: absolute;
+            content: "";
+            top: 100%;
+            width: 24px;
+            height: 24px;
+            border-bottom-left-radius: 14px;
+            border-left: 2px solid rgb(190, 190, 190);
+            border-bottom: 2px solid rgb(190, 190, 190);
+        }
+    }
+}

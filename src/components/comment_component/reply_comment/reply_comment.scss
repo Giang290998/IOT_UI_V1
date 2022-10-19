@@ -1,0 +1,99 @@
+
+.reply-comment.dark {
+    .wrap-comment-bar-reply-comment {
+        .border-comment-bar {
+            background-color: #797979;
+            &::after {
+                border-left: 2px solid #797979;
+                border-bottom: 2px solid #797979;
+            }
+        } 
+    }
+    .reply-comment-content {
+        &::after {
+            border-left: 2px solid #797979;
+            border-bottom: 2px solid #797979;
+        }
+    }
+    .border-reply-comment {
+        position: absolute;
+        bottom: 0px;
+        left: -32px;
+        width: 2px;
+        height: calc(100% + 8px);
+        background-color: #797979;
+    }
+    .border-reply-comment.show-reply {
+        &::after {
+            border-left: 2px solid #797979;
+            border-bottom: 2px solid #797979;
+        }
+    }
+}
+.reply-comment {
+    position: relative;
+    .reply-comment-content {
+        position: relative;
+        &::after {
+            position: absolute;
+            content: "";
+            width: 24px;
+            height: 40px;
+            border-bottom-left-radius: 30px;
+            border-left: 2px solid rgb(190, 190, 190);
+            border-bottom: 2px solid rgb(190, 190, 190);
+            top: -20px;
+            left: -32px;
+        }
+    }
+    .wrap-reply-child-comment {
+        margin-left: 50px;
+    }
+    .wrap-comment-bar-reply-comment.hidden {
+        display: none;
+    }
+    .wrap-comment-bar-reply-comment {
+        position: relative;
+        margin: 6px 0 0 50px;
+        .border-comment-bar {
+            position: absolute;
+            width: 2px;
+            background-color: rgb(190, 190, 190);
+            bottom: 100%;
+            left: -31px;
+            &::after {
+                position: absolute;
+                content: "";
+                width: 22px;
+                height: 26px;
+                bottom: -26px;
+                border-bottom-left-radius: 14px;
+                border-left: 2px solid rgb(190, 190, 190);
+                border-bottom: 2px solid rgb(190, 190, 190);
+            }
+        } 
+    }
+    .border-reply-comment {
+        position: absolute;
+        bottom: 0px;
+        left: -32px;
+        width: 2px;
+        height: calc(100% + 8px);
+        background-color: rgb(190, 190, 190);
+    }
+    .border-reply-comment.only-one {
+        bottom: 100%;
+    }
+    .border-reply-comment.show-reply {
+        &::after {
+            position: absolute;
+            content: "";
+            top: 100%;
+            width: 24px;
+            height: 24px;
+            border-bottom-left-radius: 14px;
+            border-left: 2px solid rgb(190, 190, 190);
+            border-bottom: 2px solid rgb(190, 190, 190);
+        }
+    }
+}

@@ -1,0 +1,406 @@
+:root {
+    --white-color: #fff;
+    --black-color: #000;
+    --text-color: #333;
+    --primary-color: rgb(0, 136, 255);
+    --background-color: #f6faff;
+    --star-gold-color: #ffce3e;
+    --gray-hover-color: rgb(234, 234, 234);
+    --primary-hover-color: rgba(14, 143, 255, 0.15);
+    --topbar-height: 60px
+}
+
+* {
+    box-sizing: inherit;
+}
+
+html {
+    /*optimize : 1rem = 10px  ;   kích thước mặc định của trình duyệt là 16px*/
+    font-size: 62.5%;
+    line-height: 1.6rem;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+}
+
+
+/* Animation */
+@keyframes stickyNav {
+    0% {
+        opacity: 0;
+        transform: translateY(-15%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes growth {
+    0% {
+        transform: scale(var(--growth-from));
+    }
+    100% {
+        transform: scale(var(--growth-to));
+    }
+}
+
+@keyframes rightOutFast {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(200%);
+    }
+}
+
+@keyframes rightInFast {
+    0% {
+        opacity: 0.4;
+        transform: translateX(200%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes leftOutFast {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-200%);
+    }
+}
+
+@keyframes leftInFast {
+    0% {
+        opacity: 0.4;
+        transform: translateX(-200%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes rightIn {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes scale0to100 {
+    0% {
+        transform: scale(0%);
+    }
+    100% {
+        transform: scale(100%);
+    }
+}
+
+@keyframes scale100to0 {
+    0% {
+        transform: scale(100%);
+    }
+    100% {
+        transform: scale(0%);
+    }
+}
+
+@keyframes rotate360 {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+// Scrollbar
+
+@mixin scrollbarCustom {
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    &::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: transparent;
+        border-radius: 30px;
+    }
+    &:hover {
+        &::-webkit-scrollbar-thumb {
+            background-color: rgb(163, 163, 187);
+        }
+    }
+}
+
+/* Modal */
+
+.modal.hidden {
+    display: none;
+}
+.modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    animation: fadeIn linear 0.2s;
+    z-index: 20;
+    .modal__overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(4px);
+        background-color: rgba(0, 0, 0, 0.3);
+        z-index: 1;
+    }
+    .modal__body {
+        --growth-from: 0.5;
+        --growth-to: 1;
+        background-color: var(--white-color);
+        margin: auto;
+        z-index: 2;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.4);
+        animation: growth linear 0.15s;
+    }
+}
+
+/* buton style */
+
+.btn {
+    min-width: 90px;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    padding: 0;
+    cursor: pointer;
+    color: var(--text-color);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.05s;
+    &:hover {
+        opacity: 0.9;
+    }
+    &:active {
+        transform: scale(98%);
+    }
+}
+
+.btn.btn--primary {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+}
+
+.btn.btn--disabled {
+    cursor: default;
+    background-color: rgb(210, 210, 210);
+    color: rgb(135, 135, 135);
+}
+
+.btn-circle {
+    transition: all 0.05s;
+    border-radius: 50%;
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+    &:active {
+        transform: scale(95%);
+    }
+}
+
+/* Input group */
+
+.input-group {
+    position: relative;
+    .input-title {
+        padding-bottom: 4px;
+        color: black;
+    }
+    .input {
+        width: 100%;
+        height: 50px;
+        padding-left: 14px;
+        font-size: 1.6rem;
+        border-radius: 4px;
+        border:1px solid rgba(0, 0, 0, 0.3);
+        &:focus {
+            outline: none;
+        }
+    }
+    .input.error-color {
+        border: 2px solid red;
+    }
+    .input.warning-color {
+        border: 2px solid orange;
+    }
+    .input-desc {
+        padding-left: 14px;
+        font-size: 1.2rem;
+    }
+    .input-desc.error-color {
+        color: red;
+    }
+    .input-desc.warning-color {
+        color: orange;
+    }
+    .icon {
+        position: absolute;
+        font-size: 20px;
+        right: 10px;
+        top: 40%;
+    }
+    .icon.hidden {
+        display: none;
+    }
+    .icon.error-color {
+        color: red;
+    }
+    .icon.warning-color {
+        color: orange;
+    }
+}
+
+/* Selection */
+
+.select-input {
+    position: relative;
+    min-width: 200px;
+    height: 34px;
+    padding: 0px 12px;
+    border-radius: 2px;
+    background-color: var(--white-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.select-input__label {
+    font-size: 1.3rem;
+}
+
+.select-input__icon {
+    font-size: 1.4rem;
+    color: rgb(125, 125, 125);
+    position: relative;
+    top: 1px;
+}
+
+.select-input__list {
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 26px;
+    border-radius: 2px;
+    background-color: var(--white-color);
+    padding: 6px 16px;
+    list-style: none;
+    display: none;
+}
+
+.select-input__list::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 40%;
+    top: -16px;
+    left: 0px;
+}
+.select-input__item {
+    margin: 6px 0;
+}
+.select-input:hover .select-input__list {
+    display: block;
+}
+
+.select-input__link {
+    font-size: 1.4rem;
+    color: var(--text-color);
+    text-decoration: none;
+    display: block;
+    padding: 3px 0;
+}
+
+.select-input__link:hover {
+    color: var(--primary-color);
+}
+
+/*==== Pagination =====*/
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+}
+
+.pagination-item {
+    margin: 0 8px;
+}
+
+.pagination-item--active .pagination-item__link {
+    color: var(--white-color);
+    background-color: var(--primary-color);
+}
+
+.pagination-item--active .pagination-item__link:hover {
+    opacity: 0.7;
+}
+
+.pagination-item__link {
+    --height: 30px;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.8rem;
+    color: #939393;
+    min-width: 40px;
+    height: var(--height);
+    line-height: var(--height);
+    border-radius: 2px;
+}
+
+/* Mobile & Tablet : 0 - 1023px , thuộc tính chung */
+@media only screen and (max-width: 63.9375em) {
+}
+
+/* Mobile : 0 - 739px */
+@media only screen and (max-width: 46.1875em) {
+}
+
+/* Tablet 740px - 1023px */
+@media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+}
+
+/* PC >= 1024px*/
+
+.disable-select {
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+}

@@ -1,0 +1,99 @@
+
+.message-room.dark {
+    .message-room-center {
+        color: #e4e5eb;
+        .wrapper-last-message {
+            font-weight: 300;
+        }
+    }
+}
+.message-room {
+    display: flex;
+    align-items: center;
+    height: 64px;
+    .message-room-left {
+        .wrapper-avatar {
+            margin-left: 6px;
+            position: relative;
+            .avatar-user {
+                width: 54px;
+                height: 54px;
+                border-radius: 50%;
+            }
+            .online-status {
+                position: absolute;
+                width: 15px;
+                height: 15px;
+                background-color: #31A24C;
+                bottom: 1px;
+                right: 1px;
+                border-radius: 50%;
+            }
+        }
+    }
+    .message-room-center {
+        flex: 1;
+        color: var(--text-color);
+        margin-left: 6px;
+        .receiver-full-name {
+            font-size: 17px;
+            font-weight: 500;
+        }
+        .wrapper-last-message.unread {
+            .last-message {
+                color: #2e89ff;
+                font-weight: 500;
+            }
+        }
+        .wrapper-last-message {
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+            .last-message {
+                max-width: 162px;
+                line-height: 28px;
+                height: 24px;
+   	            overflow: hidden;
+                display: block;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+            }
+            .dot {
+                font-size: 16px;
+            }
+            .last-message-time {
+                display: inline-block;
+                padding-top: 3px;
+                line-height: 24px;
+                height: 24px;
+                font-size: 14px;
+                font-weight: 300;
+            }
+        }
+    }
+    .message-room-right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-right: 6px;
+        .last-message-status-unread {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #2e89ff;
+        }
+        .last-message-status-seen {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .last-message-status-icon {
+            font-size: 16px;
+            color: #8e9196;
+        }
+        .last-message-status-icon.failed {
+            color: red;
+        }
+    }
+}

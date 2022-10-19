@@ -1,0 +1,43 @@
+@import '../../common/css/base.scss';
+
+.newsfeed-wrapper.dark {
+    .posts-wrapper {
+        .wrapper-spin {
+            background-color: #323232;
+        }
+    }
+}
+.newsfeed-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 590px;
+    min-width: 500px;
+    overflow-y: hidden;
+    @include scrollbarCustom;
+    .create-post-form-wrapper {
+        animation: bottomIn ease 0.6s;
+    }
+    .posts-wrapper {
+        animation: bottomIn ease 0.8s;
+        .wrapper-spin {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #fff;
+            margin: 14px auto;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+        }
+    }
+}
+
+@keyframes bottomIn {
+    0% {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,34 @@
+
+.parent-comment {
+    .parent-comment-content {
+        .wrap-reply-comment {
+            margin-left: 50px;
+        }
+    }
+    .wrap-comment-bar-parent-comment.hidden {
+        display: none;
+    }
+    .wrap-comment-bar-parent-comment {
+        position: relative;
+        margin: 6px 0 0 50px;
+        .border-comment-bar {
+            position: absolute;
+            width: 2px;
+            background-color: rgb(190, 190, 190);
+            bottom: 42px;
+            left: -31px;
+            &::after {
+                position: absolute;
+                content: "";
+                width: 22px;
+                height: 26px;
+                bottom: -26px;
+                border-bottom-left-radius: 14px;
+                border-left: 2px solid rgb(190, 190, 190);
+                border-bottom: 2px solid rgb(190, 190, 190);
+            }
+        }
+    }
+}
+
+

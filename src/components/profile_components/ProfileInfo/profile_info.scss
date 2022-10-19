@@ -1,0 +1,46 @@
+@import '../../../common/css/base.scss';
+
+.profile-content.active {
+    display: flex;
+}
+
+.profile-content {
+    display: none;
+    width: 100%;
+    .col.l-3.profile-info {
+        background-color: var(--white-color);
+        box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+        padding-top: 10px;
+        border-radius: 12px;
+        font-size: 1.8rem;
+        .profile-info-title {
+            line-height: 4rem;
+            font-size: 2.2rem;
+            font-weight: 500;
+            color: rgba(0, 0, 0, 0.7);
+        }
+        .profile-info-list {
+            overflow-y: hidden;
+            line-height: 2rem;
+            height: fit-content;
+            padding-left: 0;
+            .profile-info-item {
+                &:hover {
+                    cursor: pointer;
+                    background-color: var(--primary-hover-color);
+                }
+                height: 40px;
+                display: flex;
+                align-items: center;
+                padding-left: 10px;
+                margin-bottom: 8px;
+                font-size: 1.6rem;
+                border-radius: 6px;
+                // .profile-info-item-title {
+    
+                // }
+            }
+        }
+    }
+}

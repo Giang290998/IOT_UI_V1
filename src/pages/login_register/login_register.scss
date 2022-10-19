@@ -1,0 +1,675 @@
+@import '../../common/css/base.scss';
+
+.home-skeleton.dark {
+    background-color: #232323;
+    .top-skeleton {
+        background-color: #323232;
+    }
+}
+.home-skeleton{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(246, 254, 255);
+    .top-skeleton {
+        height: var(--topbar-height);
+        background-color: #fff;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.grid.login-register {
+    background: #0072af;  
+    background: -webkit-linear-gradient(to right, #c6f6ff, #0072af); 
+    background: linear-gradient(to right, #c6f6ff, #0072af); 
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    .row.no-gutters.login-register {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 1100px;
+        .left-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin-top: 80px;
+            animation: scaleAnimation ease 0.4s;
+            @keyframes scaleAnimation {
+                0% {
+                    transform: scale(0%);
+                }
+                70% {
+                    transform: scale(120%);
+                }
+                100% {
+                    transform: scale(100%);
+                }
+            }
+            .left-wrapper-top {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                max-width: 160px;
+                min-width: 160px;
+                .wrap-icon-login.hidden {
+                    display: none;
+                }
+                .wrap-icon-login {
+                    display: flex;
+                    position: absolute;
+                    top: 38%;
+                    right: 38%;
+                    &:nth-child(1) {
+                        color: red;
+                        transform: translate(70px, -122px);
+                        animation: iconShift1 linear 0.3s;
+                        @keyframes iconShift1 {
+                            0% {
+                                transform: translate(70px, -122px) rotate(-90deg) scale(0);
+                            }
+                            70% {
+                                transform: translate(70px, -122px) rotate(-45deg) scale(140%);
+                            }
+                            100% {
+                                transform: translate(70px, -122px) rotate(0) scale(100%);
+                            }
+                        }
+                    }
+                    &:nth-child(2) {
+                        color: #388e3c;
+                        transform: translate(122px, -70px);
+                        animation: iconShift2 linear 0.3s;
+                        @keyframes iconShift2 {
+                            0% {
+                                transform: translate(122px, -70px) rotate(-90deg) scale(0);
+                            }
+                            70% {
+                                transform: translate(122px, -70px) rotate(-45deg) scale(140%);
+                            }
+                            100% {
+                                transform: translate(122px, -70px) rotate(0) scale(100%);
+                            }
+                        }
+                    }
+                    &:nth-child(3) {
+                        color: #78909c;
+                        transform: translate(140px, 0);
+                        animation: iconShift3 linear 0.3s;
+                        @keyframes iconShift3 {
+                            0% {
+                                transform: translate(140px, 0) rotate(-90deg) scale(0);
+                            }
+                            70% {
+                                transform: translate(140px, 0) rotate(-45deg) scale(140%);
+                            }
+                            100% {
+                                transform: translate(140px, 0) rotate(0) scale(100%);
+                            }
+                        }
+                    }
+                    &:nth-child(4) {
+                        color: #1976d2;
+                        transform: translate(122px, 70px);
+                        animation: iconShift4 linear 0.3s;
+                        @keyframes iconShift4 {
+                            0% {
+                                transform: translate(122px, 70px) rotate(-90deg) scale(0);
+                            }
+                            70% {
+                                transform: translate(122px, 70px) rotate(-45deg) scale(140%);
+                            }
+                            100% {
+                                transform: translate(122px, 70px) rotate(0) scale(100%);
+                            }
+                        }
+                    }
+                    &:nth-child(5) {
+                        color: #e91e63;
+                        transform: translate(70px, 122px);
+                        animation: iconShift5 linear 0.3s;
+                        @keyframes iconShift5 {
+                            0% {
+                                transform: translate(70px, 122px) rotate(-90deg) scale(0);
+                            }
+                            70% {
+                                transform: translate(70px, 122px) rotate(-45deg) scale(140%);
+                            }
+                            100% {
+                                transform: translate(70px, 122px) rotate(0) scale(100%);
+                            }
+                        }
+                    }
+                    &:nth-child(6) {
+                        color: #424242;
+                        transform: translate(0, 140px);
+                        animation: iconShift6 linear 0.3s;
+                        @keyframes iconShift6 {
+                            0% {
+                                transform: translate(0, 140px) rotate(-90deg) scale(0);
+                            }
+                            70% {
+                                transform: translate(0, 140px) rotate(-45deg) scale(140%);
+                            }
+                            100% {
+                                transform: translate(0, 140px) rotate(0) scale(100%);
+                            }
+                        }
+                    }
+                    &:nth-child(7) {
+                        color: #1a237e;
+                        transform: translate(-70px, 122px);
+                        animation: iconShift7 linear 0.3s;
+                        @keyframes iconShift7 {
+                            0% {
+                                transform: translate(-70px, 122px) rotate(-90deg) scale(0);
+                            }
+                            70% {
+                                transform: translate(-70px, 122px) rotate(-45deg) scale(140%);
+                            }
+                            100% {
+                                transform: translate(-70px, 122px) rotate(0) scale(100%);
+                            }
+                        }
+                    }
+                    &:nth-child(8) {
+                        color: #2196f3;
+                        transform: translate(-122px, 70px);
+                        animation: iconShift8 linear 0.3s;
+                        @keyframes iconShift8 {
+                            0% {
+                                transform: translate(-122px, 70px) rotate(-90deg) scale(0);
+                            }
+                            70% {
+                                transform: translate(-122px, 70px) rotate(-45deg) scale(140%);
+                            }
+                            100% {
+                                transform: translate(-122px, 70px) rotate(0) scale(100%);
+                            }
+                        }
+                    }
+                    &:nth-child(9) {
+                        color: #fb8c00;
+                        transform: translate(-140px, 0);
+                        animation: iconShift9 linear 0.3s;
+                        @keyframes iconShift9 {
+                            0% {
+                                transform: translate(-140px, 0) rotate(-90deg) scale(0);
+                            }
+                            70% {
+                                transform: translate(-140px, 0) rotate(-45deg) scale(140%);
+                            }
+                            100% {
+                                transform: translate(-140px, 0) rotate(0) scale(100%);
+                            }
+                        }
+                    }
+                    &:nth-child(10) {
+                        color: #bcaaa4;
+                        transform: translate(-122px, -70px);
+                        animation: iconShift10 linear 0.3s;
+                        @keyframes iconShift10 {
+                            0% {
+                                transform: translate(-122px, -70px) rotate(-90deg) scale(0);
+                            }
+                            70% {
+                                transform: translate(-122px, -70px) rotate(-45deg) scale(140%);
+                            }
+                            100% {
+                                transform: translate(-122px, -70px) rotate(0) scale(100%);
+                            }
+                        }
+                    }
+                    &:nth-child(11) {
+                        color: #673ab7;
+                        transform: translate(-70px, -122px);
+                        animation: iconShift11 linear 0.3s;
+                        @keyframes iconShift11 {
+                            0% {
+                                transform: translate(-70px, -122px) rotate(-90deg) scale(0);
+                            }
+                            70% {
+                                transform: translate(-70px, -122px) rotate(-45deg) scale(140%);
+                            }
+                            100% {
+                                transform: translate(-70px, -122px) rotate(0) scale(100%);
+                            }
+                        }
+                    }
+                    &:nth-child(12) {
+                        color: #3f51b5;
+                        transform: translate(0, -140px);
+                        animation: iconShift12 linear 0.3s;
+                        @keyframes iconShift12 {
+                            0% {
+                                transform: translate(0, -140px) rotate(-90deg) scale(0);
+                            }
+                            70% {
+                                transform: translate(0, -140px) rotate(-45deg) scale(140%);
+                            }
+                            100% {
+                                transform: translate(0, -140px) rotate(0) scale(100%);
+                            }
+                        }
+                    }
+                    .login-icon {
+                        font-size: 44px;
+                    }
+                }
+                .logo-img {
+                    display: flex;
+                    margin: 0 auto;
+                    width: 100px;
+                    height: 100px;
+                    background-position: center;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                }
+                .logo-name {
+                    display: flex;
+                    align-items: center;
+                    font-size: 46px;
+                    height: 50px;
+                    font-weight: 900;
+                    color: var(--primary-color);
+                }
+            }
+            .left-wrapper-bottom {
+                margin-top: 110px;
+                .slogan {
+                    font-size: 22px;
+                    line-height: 24px;
+                    color: #424242;
+                    text-align: center;
+                }
+            }
+        }
+        .right-wrapper {
+            .login-form-wrapper{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                background-color: var(--white-color);
+                box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+                border-radius: 10px;
+                max-width: 360px;
+                min-width: 300px;
+                padding: 20px;
+                animation: rightInFast ease 0.4s;
+                .input-group {
+                    position: relative;
+                    // .input-title {
+                    // }
+                    .input {
+                        width: 100%;
+                        height: 50px;
+                        padding-left: 14px;
+                        font-size: 1.6rem;
+                        border-radius: 4px;
+                        border:1px solid rgba(0, 0, 0, 0.3);
+                        &:focus {
+                            outline: none;
+                        }
+                    }
+                    .input.error-color {
+                        border: 2px solid red;
+                    }
+                    .input.warning-color {
+                        border: 2px solid orange;
+                    }
+                    .input-desc {
+                        padding-left: 14px;
+                        font-size: 1.2rem;
+                    }
+                    .input-desc.error-color {
+                        color: red;
+                    }
+                    .input-desc.warning-color {
+                        color: orange;
+                    }
+                    .icon {
+                        position: absolute;
+                        font-size: 20px;
+                        right: 10px;
+                        top: 40%;
+                    }
+                    .icon.hidden {
+                        display: none;
+                    }
+                    .icon.error-color {
+                        color: red;
+                    }
+                    .icon.warning-color {
+                        color: orange;
+                    }
+                }
+                .btn.btn-login {
+                    margin: 10px 0;
+                    background-color: var(--primary-color);
+                    color: var(--white-color);
+                    font-size: 24px;
+                    font-weight: 500;
+                    height: 54px;
+                    &:hover {
+                        background-color: rgb(0, 127, 239);
+                    }
+                }
+                .forgot-password {
+                    margin: 10px auto;
+                    font-size: 16px;
+                    text-decoration: none;
+                    color: var(--primary-color);
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+                .btn.btn-create-new-account {
+                    margin: 10px auto 20px auto;
+                    height: 54px;
+                    min-width: 200px;
+                    width: 220px;
+                    background-color: rgb(47, 204, 47);
+                    font-size: 20px;
+                    color: var(--white-color);
+                    &:hover {
+                        background-color: rgb(44, 179, 44);
+                    }
+                }
+                .wrapper-btn-another {
+                    display: flex;
+                    flex-direction: column;
+                    padding-top: 20px;
+                    border-top: 1px solid rgba(0, 0, 0, 0.2);
+                    .btn.facebook-login {
+                        height: 42px;
+                        background-color: rgb(77, 139, 198);
+                        .facebook-img {
+                            width: 30px;
+                            height: 30px;
+                            background-color: #FFF;
+                            border-radius: 3px;
+                        }
+                        .btn-login-desc {
+                            margin-left: 10px;
+                            font-size: 16px;
+                            color: #FFF;
+                        }
+                    }
+                    .btn.google-login {
+                        height: 42px;
+                        margin-top: 10px;
+                        background-color: rgba(0, 0, 0, 0.1);
+                        .google-img {
+                            width: 30px;
+                            height: 30px;
+                        }
+                        .btn-login-desc {
+                            margin-left: 10px;
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .row.login-register-footer {
+        position: fixed;
+        bottom: 0;
+        margin: 0 auto;
+        animation: bottomIn ease 0.4s;
+        @keyframes bottomIn {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+    }
+}
+
+.modal {
+    .modal__body {
+        .register {
+            margin: 10px 20px 20px 20px;
+            .register__container {
+                width: 380px;
+                .register-top {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 10px;
+                    .register-title {
+                        display: flex;
+                        align-items: center;
+                        .main-title {
+                            font-size: 3rem;
+                            font-weight: 500;
+                            color: var(--text-color);
+                        }
+                    }
+                    .register-exit {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        background-color: var(--gray-hover-color);
+                        &:hover {
+                            cursor: pointer;
+                            border: 1px solid rgba(0, 0, 0, 0.3);
+                        }
+                        .exit-register-icon {
+                            font-size: 3rem;
+                        }
+                    }
+                }
+                .register-contain {
+                    display: flex;
+                    flex-direction: column;
+                    font-size: 1.6rem;
+                    color: var(--text-color);
+                    .create-account-wrapper {
+                        display: flex;
+                        flex-direction: column;
+                        .input-group {
+                            position: relative;
+                            .input-title {
+                                padding-bottom: 4px;
+                                color: black;
+                            }
+                            .input {
+                                width: 100%;
+                                height: 50px;
+                                padding-left: 14px;
+                                font-size: 1.6rem;
+                                border-radius: 4px;
+                                border:1px solid rgba(0, 0, 0, 0.3);
+                                &:focus {
+                                    outline: none;
+                                }
+                            }
+                            .input.error-color {
+                                border: 2px solid red;
+                            }
+                            .input.warning-color {
+                                border: 2px solid orange;
+                            }
+                            .input-desc {
+                                padding-left: 14px;
+                                font-size: 1.2rem;
+                            }
+                            .input-desc.error-color {
+                                color: red;
+                            }
+                            .input-desc.warning-color {
+                                color: orange;
+                            }
+                            .icon {
+                                position: absolute;
+                                font-size: 20px;
+                                right: 10px;
+                                top: 40%;
+                            }
+                            .icon.hidden {
+                                display: none;
+                            }
+                            .icon.error-color {
+                                color: red;
+                            }
+                            .icon.warning-color {
+                                color: orange;
+                            }
+                        }
+                        .register-id {
+                            margin-bottom: 8px;
+                            
+                        }
+                        .register-password {
+                            margin-bottom: 8px;
+                            
+                        }
+                        .register-password-confirm {
+                            margin-bottom: 8px;
+                            
+                        }
+                    }
+                    .create-info-wrapper {
+                        .create-info-name {
+                            display: flex;
+                            flex-direction: column;
+                            .name-field-title {
+                                font-size: 17px;
+                            }
+                            .wrap-name-field {
+                                display: flex;
+                                justify-content: space-between;
+                                margin-top: 4px;
+                                .name-field-item {
+                                    &:nth-child(1) {
+                                        padding-right: 5px;
+                                    }
+                                    &:nth-child(2) {
+                                        padding-left: 5px;
+                                    }
+                                }
+                            }
+
+                        }
+                        .create-info-sex {
+                            margin: 6px 0;
+                            display: flex;
+                            justify-content: space-around;
+                            .btn.sex-male {
+                                font-size: 1.6rem;
+                                display: flex;
+                                height: 40px;
+                                border: 2px solid rgba(0, 0, 0, 0.25);
+                                background-color: #fff;
+                                label {
+                                    flex: 2;
+                                    display: flex;
+                                    justify-content: center;
+                                    height: 100%;
+                                    align-items: center;
+                                }
+                                input {
+                                    flex: 1;
+                                    font-size: 160px;
+                                }
+                            }
+                            .btn.sex-female {
+                                font-size: 1.6rem;
+                                display: flex;
+                                height: 40px;
+                                border: 2px solid rgba(0, 0, 0, 0.25);
+                                background-color: #fff;
+                                label {
+                                    flex: 2;
+                                    display: flex;
+                                    justify-content: center;
+                                    height: 100%;
+                                    align-items: center;
+                                }
+                                input {
+                                    flex: 1;
+                                }
+                            }
+                        }
+                        // .birthday-title {
+
+                        // }
+                        .create-info-birthday {
+                            display: flex;
+                            justify-content: space-between;
+                            margin: 8px 0;
+                            .day-of-birth {
+                                flex: 1;
+                                font-size: 1.6rem;
+                                height: 44px;
+                                border-radius: 4px;
+                                padding-left: 14px;
+                                border: 1.5px solid rgba(0, 0, 0, 0.3);
+                                -webkit-appearance: none;
+                                background-image: url(https://iconape.com/wp-content/files/ro/367364/svg/ios-arrow-down-logo-icon-png-svg.png);
+                                background-position: right 8px center;
+                                background-repeat: no-repeat;
+                                background-size: 14px;
+                                &:hover {
+                                    border: 1.5px solid rgba(0, 0, 0, 1);
+                                }
+                            }
+                            .month-of-birth {
+                                margin: 0 10px;
+                                flex: 1;
+                                font-size: 1.6rem;
+                                height: 44px;
+                                border-radius: 4px;
+                                padding-left: 14px;
+                                border: 1.5px solid rgba(0, 0, 0, 0.3);
+                                -webkit-appearance: none;
+                                background-image: url(https://iconape.com/wp-content/files/ro/367364/svg/ios-arrow-down-logo-icon-png-svg.png);
+                                background-position: right 8px center;
+                                background-repeat: no-repeat;
+                                background-size: 14px;
+                                &:hover {
+                                    border: 1.5px solid rgba(0, 0, 0, 1);
+                                }
+                            }
+                            .year-of-birth {
+                                flex: 1;
+                                font-size: 1.6rem;
+                                height: 44px;
+                                border-radius: 4px;
+                                padding-left: 14px;
+                                border: 1.5px solid rgba(0, 0, 0, 0.3);
+                                -webkit-appearance: none;
+                                background-image: url(https://iconape.com/wp-content/files/ro/367364/svg/ios-arrow-down-logo-icon-png-svg.png);
+                                background-position: right 8px center;
+                                background-repeat: no-repeat;
+                                background-size: 14px;
+                                &:hover {
+                                    border: 1.5px solid rgba(0, 0, 0, 1);
+                                }
+                            }
+                        }
+                    }
+                    .btn.btn-register {
+                        margin-top: 10px;
+                        height: 42px;
+                        font-size: 2.2rem;
+                        font-weight: 500;
+                        background-color: rgb(47, 204, 47);
+                        color: var(--white-color);
+                        &:hover {
+                            background-color: rgb(44, 179, 44);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

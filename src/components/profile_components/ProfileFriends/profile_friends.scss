@@ -1,0 +1,120 @@
+
+.wrap-profile-friends.dark {
+    .profile-friends {
+        background-color: #242526;
+        .profile-friends-top {
+            .profile-friends-top-title {
+                color: rgba(255, 255, 255, 0.7);
+            }
+            .profile-friends-top-search {
+                .wrap-profile-friends-top-search-input {
+                    position: relative;
+                    .profile-friends-top-search-icon {
+                        background-color: transparent;
+                        color: #e4e6eb;
+                    }
+                    .profile-friends-top-search-input {
+                        background-color: transparent;
+                        color: #e4e6eb;
+                        border: 1px solid rgba(255, 255, 255, 0.3);
+                        &:focus {
+                            border-color: blue;
+                        }
+                    }
+                }
+            }
+        }
+        .profile-friends-contain {
+            .profile-friends-item {
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                color: #e4e6eb;
+            }
+            .profile-friends-empty {
+                color: #b0b3b8;
+            }
+        }
+    }
+}
+.wrap-profile-friends {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .profile-friends {
+        padding: 26px;
+        border-radius: 12px;
+        background-color: #fff;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+        height: fit-content;
+        .profile-friends-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .profile-friends-top-title {
+                font-size: 28px;
+                font-weight: 700;
+                color: rgba(0, 0, 0, 0.7);
+            }
+            .profile-friends-top-search {
+                font-size: 20px;
+                display: flex;
+                justify-content: flex-end;
+                .wrap-profile-friends-top-search-input {
+                    position: relative;
+                    .profile-friends-top-search-input {
+                        height: 36px;
+                        width: 250px;
+                        border-radius: 30px ;
+                        text-align: center;
+                    }
+                    .profile-friends-top-search-icon {
+                        position: absolute;
+                        background-color: var(--white-color);
+                        left: 8px;
+                        transform: translateY(38%);
+                    }
+                }
+            }
+        }
+        .profile-friends-contain {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            height: fit-content;
+            overflow-y: hidden;
+            padding-left: 0;
+            margin-top: 20px;
+            .profile-friends-item {
+                display: flex;
+                align-items: center;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                border-radius: 8px;
+                margin: 10px 0;
+                .profile-friends-img {
+                    display: flex;
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 8px;
+                    margin: 10px 20px 10px 0px;
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+                .profile-friend-fullname {
+                    font-size: 18px;
+                    &:hover {
+                        cursor: pointer;
+                        text-decoration: underline;
+                    }
+                }
+            }
+            .profile-friends-empty {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: rgba(0, 0, 0, 0.7);
+                font-size: 20px;
+                margin: 30px auto;
+            }
+        }
+    }
+}
