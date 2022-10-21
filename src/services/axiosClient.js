@@ -8,6 +8,7 @@ const axiosClient = axios.create({
     baseURL: BASE_URL,
     headers: {
         'content-type': 'application/json',
+        origin: `${process.env.REACT_APP_BASE_URL}`
     },
     withCredentials: true,
 })
@@ -47,7 +48,10 @@ const getNewAccessToken = async (accessToken) => {
     try {
         const res = await axios.post(BASE_URL+'/token/refresh', accessToken, {
             withCredentials: true, 
-            headers: { 'accessToken': accessToken } 
+            headers: { 
+                'accessToken': accessToken,
+                origin: `${process.env.REACT_APP_BASE_URL}`
+            } 
         })
         return res
     } catch (error) {
