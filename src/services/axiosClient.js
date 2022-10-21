@@ -7,8 +7,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL_API
 const axiosClient = axios.create({ 
     baseURL: BASE_URL,
     headers: {
-        'content-type': 'application/json',
-        origin: `${process.env.REACT_APP_BASE_URL}`
+        'content-type': 'application/json'
     },
     withCredentials: true,
 })
@@ -49,8 +48,7 @@ const getNewAccessToken = async (accessToken) => {
         const res = await axios.post(BASE_URL+'/token/refresh', accessToken, {
             withCredentials: true, 
             headers: { 
-                'accessToken': accessToken,
-                origin: `${process.env.REACT_APP_BASE_URL}`
+                'accessToken': accessToken
             } 
         })
         return res
