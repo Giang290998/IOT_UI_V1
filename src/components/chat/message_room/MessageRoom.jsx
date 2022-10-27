@@ -111,6 +111,11 @@ function MessageRoom({ roomId, serialId, lastMessage, memberAvatarArr, memberFul
                         &&
                         <span className="last-message">{isYou ? 'Bạn: ': ''}Đã gửi một GIF&nbsp;</span>
                     }
+                    {
+                        lastMessageType === 'file'
+                        &&
+                        <span className="last-message">{isYou ? 'Bạn: ': ''}Đã gửi một file&nbsp;</span>
+                    }
                     <span className="dot">&nbsp;.&nbsp;</span>
                     <span className="last-message-time">{lastMessageTime}</span> 
                 </div>
