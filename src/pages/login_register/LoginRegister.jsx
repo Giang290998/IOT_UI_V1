@@ -6,6 +6,7 @@ import facebookIcon from '../../assets/facebookIcon.png';
 import googleIcon from '../../assets/googleIcon.png';
 import TextInput from '../../components/text-input/TextInput';
 import Footer from '../../components/footer-information/Footer';
+import { CircularProgress } from 'react-cssfx-loading/lib';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
     faXmark, faLocationDot, faPhone, faEnvelope, faPaperPlane, faHeart, faCamera,
@@ -45,6 +46,8 @@ function LoginRegister() {
     const [yearOfBirth, setYearOfBirth] = useState(new Date().getFullYear());
     const [avatar, setAvatar] = useState(null)
     const [thirdPartyInfor, setThirdPartyInfor] = useState(false);
+    const [waitingResponseLogin, setWaitingResponseLogin] = useState(false);
+    const [waitingResponseRegister, setWaitingResponseRegister] = useState(false)
     const rememberToken = localStorage.getItem("rememberToken");
     let dayInMonth = []
     let monthInYear = []
@@ -163,10 +166,13 @@ function LoginRegister() {
     function animationEnd() {
         const loginForm = document.querySelector('div[id="login-form"]')
         const logo = document.querySelector('div[id="logo-social"]')
-        loginForm.setAttribute('style', 'animation: rightOutFast ease 0.6s;')
-        logo.setAttribute('style', 'animation: leftOutFast ease 0.6s;')
+        loginForm.setAttribute('style', 'animation: rightOutFast ease 0.6s forwards;')
+        logo.setAttribute('style', 'animation: leftOutFast ease 0.6s forwards;')
     }
     async function handleLogin() {
+        if (waitingResponseLogin) {
+            return null
+        }
         setErrorStatusIdLogin(null)
         setErrorStatusPassLogin(null)
         let userLogin = {
@@ -180,24 +186,28 @@ function LoginRegister() {
             setErrorStatusPassLogin("Mật khẩu không được bỏ trống!")
         }        
         if (idLogin && passwordLogin) {
+            setWaitingResponseLogin(true)
             try {
                 let res = await userAPI.loginUser(userLogin)
-                switch (res.data.errCode) {
-                    case 0:
-                        animationEnd()
-                        getInfoUser(userLogin, dispatch)
-                        break;
-
-                    case 1:
-                        setErrorStatusPassLogin("Mật khẩu không chính xác!")
-                        break;
-
-                    case 2:
-                        setErrorStatusIdLogin("Tài khoản không tồn tại!")
-                        break;     
-
-                    default:
-                        break;
+                if (res.data) {
+                    setWaitingResponseLogin(false)
+                    switch (res.data.errCode) {
+                        case 0:
+                            animationEnd()
+                            getInfoUser(userLogin, dispatch)
+                            break;
+    
+                        case 1:
+                            setErrorStatusPassLogin("Mật khẩu không chính xác!")
+                            break;
+    
+                        case 2:
+                            setErrorStatusIdLogin("Tài khoản không tồn tại!")
+                            break;     
+    
+                        default:
+                            break;
+                    }
                 }
             } catch (error) {
                 console.log(error)
@@ -223,24 +233,28 @@ function LoginRegister() {
 
         const newUser = { id, password, firstName, lastName, sex, dateOfBirth, avatar }
         if (avatar || (password === passwordConfirm && id && password && firstName && lastName && sex && dateOfBirth)) {
+            setWaitingResponseRegister(true)
             try {
                 let res = await userAPI.createNewUser(newUser)
-                switch (res.data.errCode) {
-                    case 0:
-                        if (avatar) {
-                            const res = await userAPI.loginWithThirdPartyInformation(id)
-                            saveInfoUser(res.data)
-                        } else {
-                            getInfoUser({ id, password }, dispatch)
-                        }
-                        break;
-
-                    case 1:
-                        setErrorStatusId("Tên tài khoản đã tồn tại!")
-                        break;
+                if (res.data) {
+                    setWaitingResponseRegister(false)
+                    switch (res.data.errCode) {
+                        case 0:
+                            if (avatar) {
+                                const res = await userAPI.loginWithThirdPartyInformation(id)
+                                saveInfoUser(res.data)
+                            } else {
+                                getInfoUser({ id, password }, dispatch)
+                            }
+                            break;
     
-                    default:
-                        break;
+                        case 1:
+                            setErrorStatusId("Tên tài khoản đã tồn tại!")
+                            break;
+        
+                        default:
+                            break;
+                    }
                 }
             } catch (error) {
                 console.log(error)
@@ -361,7 +375,17 @@ function LoginRegister() {
                                 onChange={handleChangePassLogin}
                                 onKeyDown={handleKeyDownPassLogin}
                             />                          
-                            <button id="btn-login" onClick={handleLogin} type="submit" className="btn btn-login">Đăng nhập</button>
+                            <button id="btn-login" onClick={handleLogin} type="submit" className="btn btn-login">
+                                {
+                                    waitingResponseLogin
+                                    ?
+                                    <div className="wrap-spin-login">
+                                        <CircularProgress color='#fff' />
+                                    </div>
+                                    :
+                                    <span>Đăng nhập</span>
+                                }
+                            </button>
                             <a href="/" className="forgot-password">Quên mật khẩu?</a>
                             <button 
                                 className="btn btn-create-new-account" id="register-button"
@@ -503,7 +527,17 @@ function LoginRegister() {
                                         </select>
                                     </div>    
                                 </div>
-                                <button id="btn-register" onClick={handleRegister} className="btn btn-register">Đăng ký</button>
+                                <button id="btn-register" onClick={handleRegister} className="btn btn-register">
+                                {
+                                    waitingResponseRegister
+                                    ?
+                                    <div className="wrap-spin-register">
+                                        <CircularProgress color='#fff' />
+                                    </div>
+                                    :
+                                    <span>Đăng ký</span>
+                                }
+                                </button>
                             </form>
                         </div>
                     </div>  

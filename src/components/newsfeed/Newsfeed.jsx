@@ -3,7 +3,7 @@ import './newsfeed.scss';
 import Post from '../post/Post';
 import CreatePostForm from '../create-post-form/CreatePostForm';
 import { useSelector } from 'react-redux';
-import { CircularProgress } from 'react-cssfx-loading/lib';
+import PostSkeleton from '../skeleton/post/PostSkeleton';
 
 function Newsfeed() {
     const postArr = useSelector(state => state.post.postArr)
@@ -24,8 +24,10 @@ function Newsfeed() {
                     />
                 )
                 :
-                <div className="wrapper-spin">
-                    <CircularProgress width={30} height={30} style={{margin: 6}}/>
+                <div className="wrapper-skeleton-post-home-page">
+                    <PostSkeleton />
+                    <PostSkeleton />
+                    <PostSkeleton />
                 </div>
             }
             </div>

@@ -356,6 +356,9 @@
                     &:hover {
                         background-color: rgb(0, 127, 239);
                     }
+                    .wrap-spin-login {
+                        font-size: 12px;
+                    }
                 }
                 .forgot-password {
                     margin: 10px auto;
@@ -666,6 +669,9 @@
                         color: var(--white-color);
                         &:hover {
                             background-color: rgb(44, 179, 44);
+                        }
+                        .wrap-spin-register {
+                            font-size: 10px;
                         }
                     }
                 }
