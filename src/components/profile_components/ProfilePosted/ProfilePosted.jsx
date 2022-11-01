@@ -4,13 +4,16 @@ import defaultAvatar from '../../../assets/defaultAvatar.png';
 import CreatePostForm from '../../create-post-form/CreatePostForm';
 import Post from '../../post/Post';
 import Footer from '../../footer-information/Footer';
+import PostSkeleton from '../../skeleton/post/PostSkeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouseChimneyWindow, faLocationDot, faGraduationCap, faBriefcase } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import postAPI from '../../../services/postAPI';
+import { useNavigate } from 'react-router-dom';
 
 function ProfilePosted({ friendArr, allFriendInfo, userInfo }) {
+    const navigate = useNavigate()
     const themeMode = useSelector(state => state.auth.themeMode) === 'dark' ? ' dark' : '';
     const currentUser = useSelector(state => state.auth.login.user.userInformation);
     const [posts, setPosts] = useState();
@@ -124,8 +127,15 @@ function ProfilePosted({ friendArr, allFriendInfo, userInfo }) {
                         ?
                         friendDisplay.map(friend => 
                             <div key={friend.userId} className="col l-4 m-4 s-4 friends-outstanding-item">
-                                <img src={friend.avatar ? friend.avatar : defaultAvatar} alt="" className="friend-outstanding-img"/>
-                                <span className="friends-outstanding-item-fullname">{friend.firstName+' '+friend.lastName}</span>
+                                <img 
+                                    src={friend.avatar ? friend.avatar : defaultAvatar} 
+                                    alt="" className="friend-outstanding-img"
+                                    onClick={() => navigate(`/${friend.userId}`)}
+                                />
+                                <span 
+                                    className="friends-outstanding-item-fullname"
+                                    onClick={() => navigate(`/${friend.userId}`)}
+                                >{friend.firstName+' '+friend.lastName}</span>
                             </div>
                         )
                         :
@@ -138,9 +148,16 @@ function ProfilePosted({ friendArr, allFriendInfo, userInfo }) {
             <div className="col l-7 m-12 s-10 profile-post" id="profile-post">
                 <CreatePostForm/>
                 {
-                    posts?.map((post) => 
+                    posts
+                    ?
+                    posts.map((post) => 
                         <Post key={post.id} post={post}/>
                     )
+                    :
+                    <div className="wrap-skeleton-profile-post">
+                        <PostSkeleton />
+                        <PostSkeleton />
+                    </div>
                 }
             </div>
         </div>

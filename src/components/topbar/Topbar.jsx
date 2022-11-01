@@ -1,13 +1,16 @@
-import { memo, useRef, useState } from 'react';
+import { memo, useRef, useState, useEffect } from 'react';
 import './topbar.scss';
 import defaultAvatar from '../../assets/defaultAvatar.png';
 import logo from '../../assets/logo.png';
+import emptyNotification from '../../assets/emptyNotification.svg';
+import emptyMessage from '../../assets/emptyMessage.svg';
+import emptyFriendRequest from '../../assets/emptyFriendRequest.svg';
+import emptySearch from '../../assets/emptySearch.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
     faRightFromBracket, faUserPlus, faEarthAmerica, faGear, 
-    faHouse, faFilm, faMoon, faEllipsisVertical, faEllipsis 
-} from '@fortawesome/free-solid-svg-icons'
-import { faFaceFrownOpen } from '@fortawesome/free-regular-svg-icons';
+    faHouse, faFilm, faMoon, faEllipsis, faMagnifyingGlass, faArrowLeft 
+} from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import axiosClient from '../../services/axiosClient';
@@ -18,17 +21,19 @@ import { deleteNotificationStore } from '../../redux/notificationSlice';
 import { deletePostStore } from '../../redux/postSlice';
 import MessageRoom from '../chat/message_room/MessageRoom';
 import FriendRequest from '../notification/friend-request/FriendRequest';
+import ImgDesc from '../img-desc/ImgDesc'; 
 import { setToast } from '../toast/ToastContainer';
 import { CircularProgress } from 'react-cssfx-loading/lib';
 import store from '../../redux/store';
 import { createDisplayChatBox } from '../../utils/chatFunction';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import userAPI from '../../services/userAPI';
 
 function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
     const $ = document.querySelector.bind(document)
     const $$ = document.querySelectorAll.bind(document)
     const navigate = useNavigate()
+    const historySearch = localStorage.getItem('historySearch') ? JSON.parse(localStorage.getItem('historySearch')) : null
     const currentUser = store.getState().auth.login.user.userInformation
     const currentUserAvatar = useSelector(state => state.auth.login.user.userInformation.avatar)
     const chatRoomArr = currentUser.chatRoom ? JSON.parse(currentUser.chatRoom) : null 
@@ -42,6 +47,8 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
     const [displayGeneral, setDisplayGeneral] = useState(true)
     const [displayFriendRequest, setDisplayFriendRequest] = useState(false)
     const [messageUnread, setMessageUnread] = useState(0)
+    const [waitingSearchResponse, setWaitingSearchResponse] = useState(false)
+    const [searchResult, setSearchResult] = useState(null)
     const isExecuteControlClickNotificationNav = useRef(false)
     const isGetNumberMessageUnread = useRef(false)
     const isSortMessage = useRef(false)
@@ -323,38 +330,98 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
         }
         return unreadMessage
     }
+    async function handleSearch(event) {
+        if (event.target.value) {
+            setWaitingSearchResponse(true)
+            const res = await userAPI.searchUser(event.target.value)
+            if (res.data) {
+                setWaitingSearchResponse(false)
+                if (res.data.resultSearch.length > 0) {
+                    setSearchResult(res.data.resultSearch)
+                } else {
+                    setSearchResult(0)
+                }
+            }
+        } else {
+            setSearchResult(null)
+        }
+    }
 
     return (
         <div className={"wrapper-top"+themeMode}>
             <div className="topbar-wrapper disable-select">
-                <div className="col l-3 m-2 s-1 topbar-left">
-                    <Link to='/' className="logo-name">GSocial</Link>
+                <div className="col l-3 m-4 s-4 topbar-left">
                     <Link to='/' className='logo-img'>
                         <img src={logo} alt="logo" className="logo-image" />
                     </Link>
+                    <div className="exit-search-btn">
+                        <FontAwesomeIcon icon={faArrowLeft} className="exit-search-icon"/>
+                    </div>
+                    <div className="wrap-search-bar">
+                        <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon"/>
+                        <input 
+                            type="text" className="search-input" placeholder="Tìm kiếm trên GSocial" required 
+                            onChange={(event) => handleSearch(event)}
+                        />
+                    </div>
+                    <div id="search-result" className="wrap-search-result hidden">
+                        <div className="search-result">
+                            <ul className="search-result-list">
+                            { 
+                                searchResult !== 0 && searchResult?.map(user =>                                        
+                                    <li 
+                                        key={user.id} className="search-result-item"
+                                        onMouseDown={() => navigate(`/${user.userId}`)}
+                                    >
+                                        <ImgDesc desc={user.firstName+" "+user.lastName} image={user.avatar} />
+                                    </li>
+                                )
+                            }
+                            </ul>
+                            {
+                                waitingSearchResponse
+                                &&
+                                <div className="wrap-waiting-search-result">
+                                    <CircularProgress />
+                                </div>
+                            }
+                            {
+                                historySearch && !waitingSearchResponse && !searchResult 
+                                &&
+                                <></>
+                            }
+                            {
+                                !historySearch && !waitingSearchResponse && searchResult === null
+                                &&
+                                <h3 className="empty-history-search">Không có lịch sử tìm kiếm.</h3>
+                            }
+                            {
+                                searchResult === 0
+                                &&
+                                <div className="empty-search-result">
+                                    <img src={emptySearch} alt="" className="empty-search-result-icon" />
+                                    <h3 className="empty-search-result-desc">Không có kết quả phù hợp.</h3>
+                                </div>
+                            }
+                        </div>
+                    </div>
                 </div>
-                <div className="col l-6 m-7 s-10 topbar-center">
+                <div className="col l-6 m-5 s-5 topbar-center">
                     <div className="wrap-top-bar-center-nav-list">
                         <ul className="top-bar-center-nav-list">
-                            <li role="button" className="btn-circle top-bar-center-item-small-scale left-bar">
-                                <FontAwesomeIcon icon={faEllipsisVertical} className="top-bar-center-item-small-scale-icon" />
-                            </li>
-                            <li role="button" className="btn-circle top-bar-center-item-small-scale center">
+                            <li role="button" className="btn-circle top-bar-center-item-small-scale">
                                 <FontAwesomeIcon icon={faEllipsis} className="top-bar-center-item-small-scale-icon" />
-                            </li>
-                            <li role="button" className="btn-circle top-bar-center-item-small-scale right-bar">
-                                <FontAwesomeIcon icon={faEllipsisVertical} className="top-bar-center-item-small-scale-icon" />
                             </li>
                             <li 
                                 id="top-bar-center-item" 
-                                className="btn top-bar-center-item active"
+                                className="btn-circle top-bar-center-item active"
                                 onClick={() => navigate('/')}
                             >
                                 <FontAwesomeIcon icon={faHouse} className="top-bar-nav-icon"/>
                             </li>
                             <li 
                                 id="top-bar-center-item"
-                                className="btn top-bar-center-item"
+                                className="btn-circle top-bar-center-item"
                                 onClick={() => {
                                     navigate('/')
                                     setToast(
@@ -371,7 +438,7 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                         </ul>
                     </div>
                 </div>
-                <div className="col l-3 m-3 s-1 topbar-right">
+                <div className="col l-3 m-3 s-3 topbar-right">
                     <div 
                         className="btn-circle topbar__friend-request"
                         onClick={() => setToast(
@@ -526,7 +593,7 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                                     :
                                     <li className="no-conversation">
                                         <div className="no-conversation-img">
-                                            <FontAwesomeIcon icon={faFaceFrownOpen} className="face"/>
+                                            <img src={emptyMessage} alt="empty-message" className="face"/>
                                         </div>
                                         <span className="no-conversation-desc">Không có cuộc trò chuyện nào!</span>
                                     </li>
@@ -551,7 +618,10 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                         <div id="notification-content" className="wrap-notification-item">
                         {
                             displayGeneral &&
-                            <h3 className="no-notification">Không có thông báo.</h3>
+                            <div className="empty-notification-wrap">
+                                <img src={emptyNotification} alt="empty-notification" className="empty-notification-img" />
+                                <h3 className="empty-notification-desc">Không có thông báo.</h3>
+                            </div>
                             // <ul className="notification-general-list">
                             //     <li className="notification-general-item">general-list</li>
                             // </ul>
@@ -574,7 +644,10 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                                 }
                                 </ul>
                                 :
-                                <h3 className="notification-friend-request-empty">Không có lời mời.</h3>
+                                <div className="notification-friend-request-empty">
+                                    <img src={emptyFriendRequest} alt="empty-friend-request" className="empty-friend-request-icon" />
+                                    <h3 className="friend-request-empty-desc">Không có lời mời.</h3>
+                                </div>
                             }
                             </div>
                         }

@@ -1,5 +1,6 @@
 import { useState, useEffect, memo, useCallback } from 'react';
 import './login_register.scss';
+import loginWaitingIcon from '../../assets/login.svg';
 import logo from '../../assets/logo.png';
 import userAPI from '../../services/userAPI';
 import facebookIcon from '../../assets/facebookIcon.png';
@@ -48,6 +49,7 @@ function LoginRegister() {
     const [thirdPartyInfor, setThirdPartyInfor] = useState(false);
     const [waitingResponseLogin, setWaitingResponseLogin] = useState(false);
     const [waitingResponseRegister, setWaitingResponseRegister] = useState(false)
+    const [loginSuccess, setLoginSuccess] = useState(false)
     const rememberToken = localStorage.getItem("rememberToken");
     let dayInMonth = []
     let monthInYear = []
@@ -194,6 +196,7 @@ function LoginRegister() {
                     switch (res.data.errCode) {
                         case 0:
                             animationEnd()
+                            setLoginSuccess(true)
                             getInfoUser(userLogin, dispatch)
                             break;
     
@@ -306,8 +309,9 @@ function LoginRegister() {
     
     if (rememberToken) {
         return (
-            <div className={"home-skeleton"+themeMode}>
-                <div className="top-skeleton"></div>
+            <div className={"login-with-token"+themeMode}>
+                <img src={logo} alt="" className="logo" />
+                <h3 className="login-desc">Login</h3>
             </div>
         )
     }
@@ -361,6 +365,16 @@ function LoginRegister() {
                             <h2 className="slogan">Gsocial giúp bạn kết nối và chia sẻ đến tất cả mọi người.</h2>
                         </div>
                     </div>
+                    {
+                        loginSuccess
+                        &&
+                        <div className="login-waiting-icon">
+                            <img src={loginWaitingIcon} alt="login-icon" className="login-icon" />
+                            <div className="login-desc">
+                                <h3>Login</h3>
+                            </div>
+                        </div>
+                    }
                     <div className="col l-4 right-wrapper">
                         <div id="login-form" className="login-form-wrapper">
                             <TextInput 

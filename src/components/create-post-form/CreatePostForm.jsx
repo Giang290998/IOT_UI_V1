@@ -1,13 +1,14 @@
-import { useState, memo } from 'react'
-import './create-post-form.scss'
-import defaultAvatar from '../../assets/defaultAvatar.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useState, memo } from 'react';
+import './create-post-form.scss';
+import defaultAvatar from '../../assets/defaultAvatar.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faEarthAmericas, faCaretDown, faLock, faUserGroup, faPhotoFilm, faUserTag, faFaceLaugh } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { getBase64 } from '../../utils/convert'
-import postAPI from '../../services/postAPI'
-import uploadToCloudinary from '../../utils/uploadToCloudinary'
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { getBase64 } from '../../utils/convert';
+import postAPI from '../../services/postAPI';
+import uploadToCloudinary from '../../utils/uploadToCloudinary';
+import { CircularProgress } from 'react-cssfx-loading';
 
 function CreatePostForm() {
     const currentUser = useSelector(state => state.auth.login.user?.userInformation)
@@ -17,6 +18,7 @@ function CreatePostForm() {
     const [descMode, setDescMode] = useState('Công khai')
     const [postImageReview, setPostImageReview] = useState()
     const [postImage, setPostImage] = useState()
+    const [creatingPost, setCreatingPost] = useState(false)
 
     function displayPostForm() {
         $('div[id="post-form-modal"]').classList.contains('hidden')
@@ -71,17 +73,23 @@ function CreatePostForm() {
         }
     }
     async function handleCreatePost() {
+        setCreatingPost(true)
         const postImageURL = postImage ? await uploadToCloudinary.image(postImage) : null
         const text = $('div[id="text-content"]').textContent
-        const newPost = {
-            id: currentUser.userId, 
-            textContent: text, 
-            imageContent: postImageURL,
-            mode: mode,
-        }
-        const res = await postAPI.createNewPost(newPost)
-        if (res.data.errCode === 0) {
-            displayPostForm()
+        if (text || postImageURL) {
+            const newPost = {
+                id: currentUser.userId, 
+                textContent: text, 
+                imageContent: postImageURL,
+                mode: mode,
+            }
+            const res = await postAPI.createNewPost(newPost)
+            if (res.data.errCode === 0) {
+                setCreatingPost(false)
+                displayPostForm()
+            }
+        } else {
+            setCreatingPost(false)
         }
     }
     function handleChangeTextPostInput(event) {
@@ -133,7 +141,7 @@ function CreatePostForm() {
                                 <div className="post-form__main-top">
                                     <div className="post-form__author">
                                         <img src={ currentUser.avatar ? currentUser.avatar : "https://i.stack.imgur.com/YaL3s.jpg"} alt="" className="auhtor-img" />
-                                        <span className="author-name">{currentUser.firstName} {currentUser.lastName}</span>
+                                        <span className="author-name">{currentUser.firstName+" "+currentUser.lastName}</span>
                                     </div>
                                     <div className="post-form__mode disable-select hidden" onClick={showModeOption}>
                                         <FontAwesomeIcon id="public" icon={faEarthAmericas} className="mode-icon"/>
@@ -204,7 +212,15 @@ function CreatePostForm() {
                                         <FontAwesomeIcon icon={faFaceLaugh} className="emote-icon"/>
                                     </div>
                                 </div>
-                                <button className="btn btn--primary btn-modified" onClick={handleCreatePost}>Đăng</button>
+                                <button className="btn btn--primary btn-modified" onClick={handleCreatePost}>
+                                {
+                                    creatingPost
+                                    ?
+                                    <CircularProgress className="creating-post-icon" color="#fff"/>
+                                    :
+                                    <span>Đăng</span>
+                                }
+                                </button>
                             </div>     
                         </div>
                     </div>  

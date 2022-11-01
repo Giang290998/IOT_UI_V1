@@ -3,6 +3,7 @@ import './profile.scss';
 import defaultAvatar from '../../assets/defaultAvatar.png';
 import defaultCoverImage from '../../assets/defaultCoverImage.jpg';
 import ProfileFriends from '../../components/profile_components/ProfileFriends/ProfileFriends';
+import ProfileSkeleton from '../../components/skeleton/profile/ProfileSkeleton';
 import { Link, useParams } from 'react-router-dom';
 import ProfilePosted from '../../components/profile_components/ProfilePosted/ProfilePosted';
 // import ProfileInfo from '../../components/profile_components/ProfileInfo/ProfileInfo';
@@ -35,10 +36,17 @@ function Profile({ reRenderApp, socket }) {
     const [addFriend, setAddFriend] = useState(false) 
     const [processing, setProcessing] = useState(false)
     const [allFriendInfo, setAllFriendInfo] = useState(null)
+    const [currentParams, setCurrentParams] = useState(useParams().userId)
     const profileUser = useParams()
     const checkSentFriendRequest = useRef(false)
     const previousScrollY = useRef(0)
     // const previousBottom = useRef(0)
+
+    if (profileUser.userId !== currentParams) {
+        setCurrentParams(profileUser.userId)
+        setUserInfo(null)
+        getProfileInfo(currentUser, profileUser).then(info => setUserInfo(info))
+    }
 
     if (userInfo) {
         document.title = `${userInfo.firstName+' '+userInfo.lastName} - GSocial`
@@ -224,7 +232,7 @@ function Profile({ reRenderApp, socket }) {
             {
                 userInfo
                 ?
-                <div className="grid profile-contain">
+                <div id="profile-content" className="grid profile-contain">
                     <div id="sticky-nav-profile" className="row sticky-nav disable-select hidden">
                         <div className="col l-12 m-12 s-12 sticky-nav">
                             <div 
@@ -409,9 +417,7 @@ function Profile({ reRenderApp, socket }) {
                     </div> 
                 </div>
                 :
-                <div className="grid skeleton-profile">
-                    <CircularProgress width={30} height={30} style={{margin: 6}} />
-                </div>
+                <ProfileSkeleton />
             }
             </div>
             {

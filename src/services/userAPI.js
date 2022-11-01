@@ -30,6 +30,11 @@ const userAPI = {
         const url = '/user/update'
         return axiosClient.patch(url, { id: userId, ...info })
     },
+
+    searchUser : (stringSearch) => {
+        const url = `/search/user/${stringSearch}`
+        return axiosClient.get(url)
+    }
 }
 
 export default userAPI;
