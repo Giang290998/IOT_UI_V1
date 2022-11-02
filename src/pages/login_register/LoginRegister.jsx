@@ -230,8 +230,10 @@ function LoginRegister() {
         if ($('input[value="0"]:checked')) {
             sex = 0
         }
+        console.log('1')
         const newUser = { id, password, firstName, lastName, sex, dateOfBirth, avatar }
         if (avatar || (password === passwordConfirm && id && password && firstName && lastName && sex && dateOfBirth)) {
+            console.log('2')
             setWaitingResponseRegister(true)
             try {
                 let res = await userAPI.createNewUser(newUser)
