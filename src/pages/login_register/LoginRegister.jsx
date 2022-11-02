@@ -219,6 +219,7 @@ function LoginRegister() {
     }
 
     async function handleRegister(event) {
+        event.preventDefault()
         const dayOfBirthFormat = ("0" + dayOfBirth).slice(-2)
         const monthOfBirthFormat = ("0" + monthOfBirth).slice(-2)
         const dateOfBirth = `${yearOfBirth}-${monthOfBirthFormat}-${dayOfBirthFormat}`  
@@ -230,7 +231,7 @@ function LoginRegister() {
         if ($('input[value="0"]:checked')) {
             sex = 0
         }
-
+        
         const newUser = { id, password, firstName, lastName, sex, dateOfBirth, avatar }
         if (avatar || (password === passwordConfirm && id && password && firstName && lastName && sex && dateOfBirth)) {
             setWaitingResponseRegister(true)
@@ -538,7 +539,7 @@ function LoginRegister() {
                                         </select>
                                     </div>    
                                 </div>
-                                <button id="btn-register" onClick={handleRegister} className="btn btn-register">
+                                <div id="btn-register" onClick={handleRegister} className="btn btn-register">
                                 {
                                     waitingResponseRegister
                                     ?
@@ -548,7 +549,7 @@ function LoginRegister() {
                                     :
                                     <span>Đăng ký</span>
                                 }
-                                </button>
+                                </div>
                             </form>
                         </div>
                     </div>  
