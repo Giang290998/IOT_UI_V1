@@ -538,7 +538,7 @@ function LoginRegister() {
                                         </select>
                                     </div>    
                                 </div>
-                                <div id="btn-register" onClick={handleRegister} className="btn btn-register">
+                                <div id="btn-register" onClick={handleRegister()} className="btn btn-register">
                                 {
                                     waitingResponseRegister
                                     ?
