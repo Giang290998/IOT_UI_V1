@@ -231,12 +231,9 @@ function LoginRegister() {
             sex = 0
         }
         const newUser = { id, password, firstName, lastName, sex, dateOfBirth, avatar }
-        console.log('1')
         if (avatar || (password === passwordConfirm && id && password && firstName && lastName && sex && dateOfBirth)) {
-            console.log('2')
             setWaitingResponseRegister(true)
             try {
-                console.log('3')
                 let res = await userAPI.createNewUser(newUser)
                 if (res.data) {
                     console.log(res.data)
@@ -541,7 +538,7 @@ function LoginRegister() {
                                         </select>
                                     </div>    
                                 </div>
-                                <div id="btn-register" onClick={handleRegister()} className="btn btn-register">
+                                <div id="btn-register" onClick={() => handleRegister()} className="btn btn-register">
                                 {
                                     waitingResponseRegister
                                     ?
