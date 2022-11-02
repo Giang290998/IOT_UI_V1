@@ -225,20 +225,17 @@ function LoginRegister() {
         let sex = null
         
         if ($('input[value="1"]:checked')) {
-            sex = 1
+            sex = "1"
         }
         if ($('input[value="0"]:checked')) {
-            sex = 0
+            sex = "0"
         }
-        console.log('1')
         const newUser = { id, password, firstName, lastName, sex, dateOfBirth, avatar }
         if (avatar || (password === passwordConfirm && id && password && firstName && lastName && sex && dateOfBirth)) {
-            console.log('2')
             setWaitingResponseRegister(true)
             try {
                 let res = await userAPI.createNewUser(newUser)
                 if (res.data) {
-                    console.log(res.data)
                     setWaitingResponseRegister(false)
                     switch (res.data.errCode) {
                         case 0:
@@ -271,6 +268,7 @@ function LoginRegister() {
             switch (res.data.errCode) {
                 case 0:
                     animationEnd()
+                    setLoginSuccess(true)
                     saveInfoUser(res.data)
                     break;
                 case 1:
@@ -291,6 +289,7 @@ function LoginRegister() {
         switch (res.data.errCode) {
             case 0:
                 animationEnd()
+                setLoginSuccess(true)
                 saveInfoUser(res.data)
                 break;
             case 1:
