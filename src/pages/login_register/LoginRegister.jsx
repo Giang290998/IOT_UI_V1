@@ -218,8 +218,7 @@ function LoginRegister() {
         }
     }
 
-    async function handleRegister(event) {
-        event.preventDefault()
+    async function handleRegister() {
         const dayOfBirthFormat = ("0" + dayOfBirth).slice(-2)
         const monthOfBirthFormat = ("0" + monthOfBirth).slice(-2)
         const dateOfBirth = `${yearOfBirth}-${monthOfBirthFormat}-${dayOfBirthFormat}`  
