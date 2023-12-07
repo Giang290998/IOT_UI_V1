@@ -7,9 +7,9 @@ import emptyMessage from '../../assets/emptyMessage.svg';
 import emptyFriendRequest from '../../assets/emptyFriendRequest.svg';
 import emptySearch from '../../assets/emptySearch.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-    faRightFromBracket, faUserPlus, faEarthAmerica, faGear, 
-    faHouse, faFilm, faMoon, faEllipsis, faMagnifyingGlass, faArrowLeft 
+import {
+    faRightFromBracket, faUserPlus, faEarthAmerica, faGear,
+    faHouse, faFilm, faMoon, faEllipsis, faMagnifyingGlass, faArrowLeft
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
@@ -21,7 +21,7 @@ import { deleteNotificationStore } from '../../redux/notificationSlice';
 import { deletePostStore } from '../../redux/postSlice';
 import MessageRoom from '../chat/message_room/MessageRoom';
 import FriendRequest from '../notification/friend-request/FriendRequest';
-import ImgDesc from '../img-desc/ImgDesc'; 
+import ImgDesc from '../img-desc/ImgDesc';
 import { setToast } from '../toast/ToastContainer';
 import { CircularProgress } from 'react-cssfx-loading/lib';
 import store from '../../redux/store';
@@ -29,20 +29,22 @@ import { createDisplayChatBox } from '../../utils/chatFunction';
 import { useSelector } from 'react-redux';
 import userAPI from '../../services/userAPI';
 
-function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
+function Topbar({ reRenderApp
+    // , socket, isConnectedSocketServer 
+}) {
     const $ = document.querySelector.bind(document)
     const $$ = document.querySelectorAll.bind(document)
     const navigate = useNavigate()
     const historySearch = localStorage.getItem('historySearch') ? JSON.parse(localStorage.getItem('historySearch')) : null
-    const currentUser = store.getState().auth.login.user.userInformation
-    const currentUserAvatar = useSelector(state => state.auth.login.user.userInformation.avatar)
-    const chatRoomArr = currentUser.chatRoom ? JSON.parse(currentUser.chatRoom) : null 
+    const currentUser = store.getState().auth.login.user
+    const currentUserAvatar = useSelector(state => state.auth.login.user?.avatar);
+    const chatRoomArr = currentUser.chatRoom ? JSON.parse(currentUser.chatRoom) : null
     const themeMode = useSelector(state => state.auth.themeMode) === 'dark' ? ' dark' : '';
     const notification = useSelector(state => state.notification)
-    const memberAvatarArr = useSelector(state => state.chat.chatRoomMemberAvatar) 
-    const memberFullNameArr = useSelector(state => state.chat.chatRoomMemberFullName) 
-    const memberUserIdArr = useSelector(state => state.chat.chatRoomUserId) 
-    const detailChat = useSelector(state => state.chat.chatRoomDetail) 
+    const memberAvatarArr = useSelector(state => state.chat.chatRoomMemberAvatar)
+    const memberFullNameArr = useSelector(state => state.chat.chatRoomMemberFullName)
+    const memberUserIdArr = useSelector(state => state.chat.chatRoomUserId)
+    const detailChat = useSelector(state => state.chat.chatRoomDetail)
     const friendRequest = notification.friendRequest ? notification.friendRequest : null
     const [displayGeneral, setDisplayGeneral] = useState(true)
     const [displayFriendRequest, setDisplayFriendRequest] = useState(false)
@@ -62,7 +64,7 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
         if (detailChat.length > 1 && !isSortMessage.current) {
             isSortMessage.current = true
             let detailChatSort = detailChat.map(chat => chat)
-            detailChatSort.sort((a,b) => new Date(b[b.length - 1].createdAt) - new Date(a[a.length - 1].createdAt))
+            detailChatSort.sort((a, b) => new Date(b[b.length - 1].createdAt) - new Date(a[a.length - 1].createdAt))
             for (let i = 0; i < detailChatSort.length; i++) {
                 for (let j = 0; j < detailChat.length; j++) {
                     if (detailChat[j][0] === detailChatSort[i][0]) {
@@ -79,26 +81,26 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
 
     }
 
-    useEffect(() => {
-        const T = setInterval(() => {
-            const wrapIcons = document.querySelectorAll('#lord-icon-custom')
-            if (wrapIcons.length > 0) {
-                wrapIcons.forEach((item) => {
-                    const icon = item.shadowRoot.childNodes[1]
-                    icon.setAttribute(
-                        'style', 
-                        themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb': '--lord-icon-primary-base: #525252'
-                    )
-                })
-            }
-        }, 10)
-    
-        setTimeout(() => {
-            clearInterval(T)
-        }, 4000)
+    // useEffect(() => {
+    //     const T = setInterval(() => {
+    //         const wrapIcons = document.querySelectorAll('#lord-icon-custom')
+    //         if (wrapIcons.length > 0) {
+    //             wrapIcons.forEach((item) => {
+    //                 const icon = item.shadowRoot.childNodes[1]
+    //                 icon.setAttribute(
+    //                     'style',
+    //                     themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb' : '--lord-icon-primary-base: #525252'
+    //                 )
+    //             })
+    //         }
+    //     }, 10)
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    //     setTimeout(() => {
+    //         clearInterval(T)
+    //     }, 4000)
+
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
 
     useEffect(() => {
         customIcon()
@@ -106,9 +108,9 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
             const wrapIcons = document.querySelectorAll('#lord-icon-custom')
             wrapIcons.forEach((item) => {
                 const icon = item.shadowRoot.childNodes[1]
-                icon.setAttribute(
-                    'style', 
-                    themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb': '--lord-icon-primary-base: #525252'
+                icon?.setAttribute(
+                    'style',
+                    themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb' : '--lord-icon-primary-base: #525252'
                 )
             })
         }
@@ -144,21 +146,21 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                     const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[1]
                     const icon = wrapIcon.shadowRoot.childNodes[1]
                     icon.setAttribute(
-                        'style', 
-                        themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb': '--lord-icon-primary-base: #525252'
+                        'style',
+                        themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb' : '--lord-icon-primary-base: #525252'
                     )
                 }
             } else {
-                messageTable.classList.add('hidden')
+                messageTable.classList.add('hidden');
                 // messageButton.classList.remove('select')
                 const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[1]
                 const icon = wrapIcon.shadowRoot.childNodes[1]
-                icon.setAttribute(
-                    'style', 
-                    themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb': '--lord-icon-primary-base: #525252'
+                icon?.setAttribute(
+                    'style',
+                    themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb' : '--lord-icon-primary-base: #525252'
                 )
             }
-    
+
             if (settingButton.contains(event.target)) {
                 if (settingTable.classList.contains('hidden')) {
                     settingTable.classList.remove('hidden')
@@ -176,7 +178,7 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                     settingButton.classList.remove('select')
                 }
             }
-    
+
             if (notificationButton.contains(event.target)) {
                 if (notificationTable.classList.contains('hidden')) {
                     notificationTable.classList.remove('hidden')
@@ -184,7 +186,7 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                     const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[2]
                     const icon = wrapIcon.shadowRoot.childNodes[1]
                     icon.setAttribute('style', '--lord-icon-primary-base: #0088ff')
-                    if(!isExecuteControlClickNotificationNav.current) {
+                    if (!isExecuteControlClickNotificationNav.current) {
                         controlClickNotificationNav()
                         isExecuteControlClickNotificationNav.current = true
                     }
@@ -194,8 +196,8 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                     const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[2]
                     const icon = wrapIcon.shadowRoot.childNodes[1]
                     icon.setAttribute(
-                        'style', 
-                        themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb': '--lord-icon-primary-base: #525252'
+                        'style',
+                        themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb' : '--lord-icon-primary-base: #525252'
                     )
                 }
             } else {
@@ -204,9 +206,9 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                     // notificationButton.classList.remove('select')
                     const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[2]
                     const icon = wrapIcon.shadowRoot.childNodes[1]
-                    icon.setAttribute(
-                        'style', 
-                        themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb': '--lord-icon-primary-base: #525252'
+                    icon?.setAttribute(
+                        'style',
+                        themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb' : '--lord-icon-primary-base: #525252'
                     )
                 }
             }
@@ -232,7 +234,7 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
         }
         function controlSelectTopBarNav(event) {
             if (document.URL !== URL.current) {
-                if(document.URL === process.env.REACT_APP_BASE_URL) {
+                if (document.URL === process.env.REACT_APP_BASE_URL) {
                     let clickCenterNav = false
                     const tabs = $$('li[id="top-bar-center-item"]')
                     tabs.forEach(tab => {
@@ -280,20 +282,26 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                 })
             })
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[themeMode])
-    
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [themeMode])
+
     function handleLogOut() {
 
         /*--- Delete Cookie ---*/
-        Cookies.remove('refreshToken',
+        Cookies.remove('access_token',
+            // { path: '', domain: '.yourDomain.com' }
+        )
+        Cookies.remove('refresh_token',
+            // { path: '', domain: '.yourDomain.com' }
+        )
+        Cookies.remove('persistent_token',
             // { path: '', domain: '.yourDomain.com' }
         )
         /*--- Delete local storage ---*/
         window.localStorage.clear()
 
         /*--- Delete access token in headers ---*/
-        delete axiosClient.defaults.headers["accessToken"]
+        delete axiosClient.defaults.headers["Authorization"]
 
         /*--- Delete redux store ---*/
         store.dispatch(deleteAuthStore())
@@ -303,8 +311,8 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
         store.dispatch(deletePostStore())
 
         /*--- Disconnect socket server ---*/
-        socket.current.disconnect()
-        isConnectedSocketServer.current = false
+        // socket.current.disconnect()
+        // isConnectedSocketServer.current = false
 
         /*--- Redirect login page ---*/
         reRenderApp()
@@ -348,35 +356,35 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
     }
 
     return (
-        <div className={"wrapper-top"+themeMode}>
+        <div className={"wrapper-top" + themeMode}>
             <div className="topbar-wrapper disable-select">
                 <div className="col l-3 m-4 s-4 topbar-left">
                     <Link to='/' className='logo-img'>
                         <img src={logo} alt="logo" className="logo-image" />
                     </Link>
                     <div className="exit-search-btn">
-                        <FontAwesomeIcon icon={faArrowLeft} className="exit-search-icon"/>
+                        <FontAwesomeIcon icon={faArrowLeft} className="exit-search-icon" />
                     </div>
                     <div className="wrap-search-bar">
-                        <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon"/>
-                        <input 
-                            type="text" className="search-input" placeholder="Tìm kiếm trên GSocial" required 
+                        <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
+                        <input
+                            type="text" className="search-input" placeholder="Tìm kiếm trên Agri-IOT" required
                             onChange={(event) => handleSearch(event)}
                         />
                     </div>
                     <div id="search-result" className="wrap-search-result hidden">
                         <div className="search-result">
                             <ul className="search-result-list">
-                            { 
-                                searchResult !== 0 && searchResult?.map(user =>                                        
-                                    <li 
-                                        key={user.id} className="search-result-item"
-                                        onMouseDown={() => navigate(`/${user.userId}`)}
-                                    >
-                                        <ImgDesc desc={user.firstName+" "+user.lastName} image={user.avatar} />
-                                    </li>
-                                )
-                            }
+                                {
+                                    searchResult !== 0 && searchResult?.map(user =>
+                                        <li
+                                            key={user.id} className="search-result-item"
+                                            onMouseDown={() => navigate(`/${user.userId}`)}
+                                        >
+                                            <ImgDesc desc={user.firstName + " " + user.lastName} image={user.avatar} />
+                                        </li>
+                                    )
+                                }
                             </ul>
                             {
                                 waitingSearchResponse
@@ -386,7 +394,7 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                                 </div>
                             }
                             {
-                                historySearch && !waitingSearchResponse && !searchResult 
+                                historySearch && !waitingSearchResponse && !searchResult
                                 &&
                                 <></>
                             }
@@ -412,40 +420,41 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                             <li role="button" className="btn-circle top-bar-center-item-small-scale">
                                 <FontAwesomeIcon icon={faEllipsis} className="top-bar-center-item-small-scale-icon" />
                             </li>
-                            <li 
-                                id="top-bar-center-item" 
+                            <li
+                                id="top-bar-center-item"
                                 className="btn-circle top-bar-center-item active"
                                 onClick={() => navigate('/')}
                             >
-                                <FontAwesomeIcon icon={faHouse} className="top-bar-nav-icon"/>
+                                <FontAwesomeIcon icon={faHouse} className="top-bar-nav-icon" />
                             </li>
-                            <li 
+                            <li
                                 id="top-bar-center-item"
                                 className="btn-circle top-bar-center-item"
                                 onClick={() => {
                                     navigate('/')
                                     setToast(
-                                        null, 
-                                        'Tính năng này hiện chưa hoàn thiện, chúng tôi sẽ cập nhật sau.', 
-                                        'notification', 
-                                        3500, 
+                                        null,
+                                        'Tính năng này hiện chưa hoàn thiện, chúng tôi sẽ cập nhật sau.',
+                                        'notification',
+                                        3500,
                                         themeMode === ' dark' ? true : false
-                                    )}
+                                    )
+                                }
                                 }
                             >
-                                <FontAwesomeIcon icon={faFilm} className="top-bar-nav-icon"/>
+                                <FontAwesomeIcon icon={faFilm} className="top-bar-nav-icon" />
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div className="col l-3 m-3 s-3 topbar-right">
-                    <div 
+                    <div
                         className="btn-circle topbar__friend-request"
                         onClick={() => setToast(
-                            null, 
-                            'Tính năng này hiện chưa hoàn thiện, chúng tôi sẽ cập nhật sau.', 
-                            'notification', 
-                            3500, 
+                            null,
+                            'Tính năng này hiện chưa hoàn thiện, chúng tôi sẽ cập nhật sau.',
+                            'notification',
+                            3500,
                             themeMode === ' dark' ? true : false
                         )}
                     >
@@ -454,13 +463,13 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                                 id="lord-icon-custom"
                                 src="https://cdn.lordicon.com/mrdiiocb.json"
                                 trigger="click"
-                                style={{width:26, height:26}}
+                                style={{ width: 26, height: 26 }}
                             >
                             </lord-icon>
                         </div>
                     </div>
                     <div className="btn-circle topbar__message">
-                        <div 
+                        <div
                             id="message-btn" className="wrapper-icon disable-select"
                         >
                             <lord-icon
@@ -468,7 +477,7 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                                 className="lord-icon-custom message"
                                 src="https://cdn.lordicon.com/pkmkagva.json"
                                 trigger="click"
-                                style={{width:27, height:27}}
+                                style={{ width: 27, height: 27 }}
                             >
                             </lord-icon>
                             {
@@ -487,7 +496,7 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                                 className="lord-icon-custom notification"
                                 src="https://cdn.lordicon.com/msetysan.json"
                                 trigger="click"
-                                style={{width:28, height:28}}
+                                style={{ width: 28, height: 28 }}
                             >
                             </lord-icon>
                             {/* <span className="topbar__not-seen disable-select">
@@ -498,24 +507,24 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                     <div className="btn-circle topbar__user-setting">
                         <div id="setting-btn" className="wrapper-icon disable-select">
                             <img src={currentUserAvatar ? currentUserAvatar : defaultAvatar} alt="" className="current-user-avatar" />
-                            <FontAwesomeIcon icon={faGear} className="user-setting-icon" id="setting-icon"/>
+                            <FontAwesomeIcon icon={faGear} className="user-setting-icon" id="setting-icon" />
                         </div>
                     </div>
                     <ul id="setting-list" className="setting-list hidden">
-                        <li  className="setting-item" onClick={() => navigate(`/${currentUser.userId}`)}>
+                        <li className="setting-item" onClick={() => navigate(`/${currentUser.userId}`)}>
                             <img src={currentUserAvatar ? currentUserAvatar : defaultAvatar} alt="" className="user-avatar" />
-                            <span className="user-full-name">{currentUser.firstName+" "+ currentUser.lastName}</span>
+                            <span className="user-full-name">{currentUser.name}</span>
                         </li>
                         <li className="setting-item" id="theme-mode">
                             <div className="wrapper-setting-icon">
-                                <FontAwesomeIcon icon={faMoon} className="setting-icon mode"/>
+                                <FontAwesomeIcon icon={faMoon} className="setting-icon mode" />
                             </div>
                             <span className="setting-desc">Chế độ tối</span>
                             <div className="wrap-toggle-btn-mode">
                                 <div className="container">
                                     <label className="switch">
-                                        <input 
-                                            id="toggle" type="checkbox" 
+                                        <input
+                                            id="toggle" type="checkbox"
                                             checked={themeMode === ' dark' ? true : false}
                                             onChange={(event) => {
                                                 if (event.target.checked) {
@@ -534,7 +543,7 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                         </li>
                         <li className="setting-item" onClick={handleLogOut}>
                             <div className="wrapper-setting-icon">
-                                <FontAwesomeIcon icon={faRightFromBracket} className="setting-icon logout"/>
+                                <FontAwesomeIcon icon={faRightFromBracket} className="setting-icon logout" />
                             </div>
                             <span className="setting-desc">Đăng xuất</span>
                         </li>
@@ -547,60 +556,60 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                             {/* <input type="text" className="message-search"/> */}
                         </div>
                         <ul className="message-list">
-                        {   
-                            chatRoomArr && !(memberAvatarArr && memberFullNameArr && detailChat)
-                                ? 
-                                <li className="wrapper-spin">
-                                    <CircularProgress width={60} height={60} style={{margin: 6}}/>
-                                </li>
-                                : chatRoomArr && (memberAvatarArr && memberFullNameArr && detailChat)
-                                    ? 
-                                        chatRoomSort.current.length > 0
-                                        ?
-                                        chatRoomSort.current.map((roomId, index) => { 
-                                            return (
-                                                <li 
-                                                    key={roomId} className="message-item" 
-                                                    onClick={() => handlePopUpChatBox(roomId)}
-                                                >
-                                                    <MessageRoom 
-                                                        roomId={roomId} serialId={index} 
-                                                        lastMessage={detailChat[sort.current[index]][(detailChat[sort.current[index]].length - 1)]}
-                                                        memberAvatarArr={memberAvatarArr[sort.current[index]]}
-                                                        memberFullNameArr={memberFullNameArr[sort.current[index]]}
-                                                        memberUserIdArr={memberUserIdArr[sort.current[index]]}
-                                                    />
-                                                </li>
-                                            )
-                                        })
-                                        :
-                                        chatRoomArr.map((roomId, index) => { 
-                                            return (
-                                                <li 
-                                                    key={roomId} className="message-item" 
-                                                    onClick={() => handlePopUpChatBox(roomId)}
-                                                >
-                                                    <MessageRoom 
-                                                        roomId={roomId} serialId={index} 
-                                                        lastMessage={detailChat[index][(detailChat[index].length - 1)]}
-                                                        memberAvatarArr={memberAvatarArr[index]}
-                                                        memberFullNameArr={memberFullNameArr[index]}
-                                                        memberUserIdArr={memberUserIdArr[index]}
-                                                    />
-                                                </li>
-                                            )
-                                        })
-                                    :
-                                    <li className="no-conversation">
-                                        <div className="no-conversation-img">
-                                            <img src={emptyMessage} alt="empty-message" className="face"/>
-                                        </div>
-                                        <span className="no-conversation-desc">Không có cuộc trò chuyện nào!</span>
+                            {
+                                chatRoomArr && !(memberAvatarArr && memberFullNameArr && detailChat)
+                                    ?
+                                    <li className="wrapper-spin">
+                                        <CircularProgress width={60} height={60} style={{ margin: 6 }} />
                                     </li>
-                        }
+                                    : chatRoomArr && (memberAvatarArr && memberFullNameArr && detailChat)
+                                        ?
+                                        chatRoomSort.current.length > 0
+                                            ?
+                                            chatRoomSort.current.map((roomId, index) => {
+                                                return (
+                                                    <li
+                                                        key={roomId} className="message-item"
+                                                        onClick={() => handlePopUpChatBox(roomId)}
+                                                    >
+                                                        <MessageRoom
+                                                            roomId={roomId} serialId={index}
+                                                            lastMessage={detailChat[sort.current[index]][(detailChat[sort.current[index]].length - 1)]}
+                                                            memberAvatarArr={memberAvatarArr[sort.current[index]]}
+                                                            memberFullNameArr={memberFullNameArr[sort.current[index]]}
+                                                            memberUserIdArr={memberUserIdArr[sort.current[index]]}
+                                                        />
+                                                    </li>
+                                                )
+                                            })
+                                            :
+                                            chatRoomArr.map((roomId, index) => {
+                                                return (
+                                                    <li
+                                                        key={roomId} className="message-item"
+                                                        onClick={() => handlePopUpChatBox(roomId)}
+                                                    >
+                                                        <MessageRoom
+                                                            roomId={roomId} serialId={index}
+                                                            lastMessage={detailChat[index][(detailChat[index].length - 1)]}
+                                                            memberAvatarArr={memberAvatarArr[index]}
+                                                            memberFullNameArr={memberFullNameArr[index]}
+                                                            memberUserIdArr={memberUserIdArr[index]}
+                                                        />
+                                                    </li>
+                                                )
+                                            })
+                                        :
+                                        <li className="no-conversation">
+                                            <div className="no-conversation-img">
+                                                <img src={emptyMessage} alt="empty-message" className="face" />
+                                            </div>
+                                            <span className="no-conversation-desc">Không có cuộc trò chuyện nào!</span>
+                                        </li>
+                            }
                         </ul>
                     </div>
-                    <div 
+                    <div
                         id="notification" className="wrap-notification-list hidden"
                     >
                         <div className="notification-top">
@@ -608,57 +617,57 @@ function Topbar({ socket, reRenderApp, isConnectedSocketServer }) {
                         </div>
                         <div className="notification-nav">
                             <div className="btn notification general active">
-                                <FontAwesomeIcon icon={faEarthAmerica} className="notification-icon"/>
+                                <FontAwesomeIcon icon={faEarthAmerica} className="notification-icon" />
                             </div>
                             <div className="btn notification friend-request">
-                                <FontAwesomeIcon icon={faUserPlus} className="notification-icon"/>
+                                <FontAwesomeIcon icon={faUserPlus} className="notification-icon" />
                             </div>
                             <div id="nav-notification-line" className="notification-line" />
                         </div>
                         <div id="notification-content" className="wrap-notification-item">
-                        {
-                            displayGeneral &&
-                            <div className="empty-notification-wrap">
-                                <img src={emptyNotification} alt="empty-notification" className="empty-notification-img" />
-                                <h3 className="empty-notification-desc">Không có thông báo.</h3>
-                            </div>
-                            // <ul className="notification-general-list">
-                            //     <li className="notification-general-item">general-list</li>
-                            // </ul>
-                        }
-                        {
-                            displayFriendRequest &&
-                            <div className="wrap-notification-friend-request-list">
                             {
-                                (friendRequest.length > 0)
-                                ? 
-                                <ul className="notification-friend-request-list">
-                                {
-                                    friendRequest.map(info => {
-                                        return (
-                                            <li key={info.id} className="notification-friend-request-item">
-                                                <FriendRequest info={info} currentUserId={currentUser.userId}/>
-                                            </li>
-                                        )
-                                    })
-                                }
-                                </ul>
-                                :
-                                <div className="notification-friend-request-empty">
-                                    <img src={emptyFriendRequest} alt="empty-friend-request" className="empty-friend-request-icon" />
-                                    <h3 className="friend-request-empty-desc">Không có lời mời.</h3>
+                                displayGeneral &&
+                                <div className="empty-notification-wrap">
+                                    <img src={emptyNotification} alt="empty-notification" className="empty-notification-img" />
+                                    <h3 className="empty-notification-desc">Không có thông báo.</h3>
+                                </div>
+                                // <ul className="notification-general-list">
+                                //     <li className="notification-general-item">general-list</li>
+                                // </ul>
+                            }
+                            {
+                                displayFriendRequest &&
+                                <div className="wrap-notification-friend-request-list">
+                                    {
+                                        (friendRequest.length > 0)
+                                            ?
+                                            <ul className="notification-friend-request-list">
+                                                {
+                                                    friendRequest.map(info => {
+                                                        return (
+                                                            <li key={info.id} className="notification-friend-request-item">
+                                                                <FriendRequest info={info} currentUserId={currentUser.userId} />
+                                                            </li>
+                                                        )
+                                                    })
+                                                }
+                                            </ul>
+                                            :
+                                            <div className="notification-friend-request-empty">
+                                                <img src={emptyFriendRequest} alt="empty-friend-request" className="empty-friend-request-icon" />
+                                                <h3 className="friend-request-empty-desc">Không có lời mời.</h3>
+                                            </div>
+                                    }
                                 </div>
                             }
-                            </div>
-                        }
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
     )
-    
+
 }
 
 export default memo(Topbar);

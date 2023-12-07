@@ -1,7 +1,8 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import { saveUser } from "../redux/authSlice";
 import store from '../redux/store';
+import Cookies from "js-cookie";
+import HttpStatusCustom from "../utils/httpStatus";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL_API
 const axiosClient = axios.create({ 
@@ -15,21 +16,22 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(async (config) => {
     const user = store.getState().auth.login.user
     if (user) {
-        const payloadAccessToken = jwtDecode(user.accessToken)
-        const date = new Date()
-        const time = date.getTime()/1000
+        const access_token = Cookies.get("access_token")
+        const payloadAccessToken = jwtDecode(access_token)
+        const time = (new Date()).getTime()/1000
         if (payloadAccessToken.exp < time) {
-            const res = await getNewAccessToken(user.accessToken)
-            if (res.data.errCode === 0) {
-                const newUserInfo = {
-                    ...user,
-                    accessToken: res.data.newAccessToken
+            try {
+                const res = await getNewToken()
+                if (HttpStatusCustom.isSuccess(res.data)) {
+                    Cookies.set("access_token", res.data.access_token)
+                    Cookies.set("refresh_token", res.data.refresh_token)
+                    config.headers["Authorization"] = "Bearer " + Cookies.get("access_token")
                 }
-                store.dispatch(saveUser(newUserInfo))
-                config.headers["accessToken"] = "Bearer " + res.data.newAccessToken
+            } catch (error) {
+                console.log(error)
             }
         } else {
-            config.headers["accessToken"] = "Bearer " + user.accessToken
+            config.headers["Authorization"] = "Bearer " + access_token
         }
     }
     return config
@@ -43,12 +45,15 @@ axiosClient.interceptors.request.use(async (config) => {
 //     throw error
 // })
 
-const getNewAccessToken = async (accessToken) => {
+const getNewToken = async () => {
+    const access_token = Cookies.get("access_token")
+    const refresh_token = Cookies.get("refresh_token")
     try {
-        const res = await axios.post(BASE_URL+'/token/refresh', accessToken, {
+        const res = await axios.post(BASE_URL+'/token/refresh', {
             withCredentials: true, 
             headers: { 
-                'accessToken': accessToken
+                'access_token': access_token,
+                'refresh_token': refresh_token
             } 
         })
         return res

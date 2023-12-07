@@ -13,6 +13,7 @@ const authSlice = createSlice({
         themeMode: null,
         weather: null,
         content: 'post',
+        page: 0
     },
     reducers:{
         loginStart: (state) => {
@@ -67,6 +68,12 @@ const authSlice = createSlice({
         loginFailed: (state) => {
             state.login.isFetching = false
             state.login.error = true
+        },
+        setPage: (state, action) => {
+            state.page = action.payload
+        },
+        setValid: (state) => {
+            state.login.user.isActive = true;
         }
     }
 })
@@ -75,6 +82,6 @@ export const {
     loginStart, saveUser, loginFailed, modifiedUserAvatar,
     modifiedChatRoomId, addFriendOnline, setFriendOnline,
     removeFriendOnline, setFriendInfo, deleteAuthStore,
-    modifiedThemeMode, setWeather, setContent, 
+    modifiedThemeMode, setWeather, setContent, setPage, setValid,
 } = authSlice.actions;
 export default authSlice.reducer;

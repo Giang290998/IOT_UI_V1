@@ -1,19 +1,50 @@
+import Cookies from "js-cookie";
 import axiosClient from "./axiosClient";
+import axios from "axios";
 
 const userAPI = {
     createNewUser : (newUser) => {
-        const url = '/user/create'
+        const url = '/users/register'
         return axiosClient.post(url, newUser)
     },
     
     loginUser : (user) => {
-        const url = `/user/login/${user.id}/${user.password}`
+        const url = `/users/login?phone=${user.phone}&password=${user.password}`
         return axiosClient.get(url)
     },
 
-    loginUserWithRememberToken : (rememberToken) => {
-        const url = `/user/login/remember/${rememberToken}`
-        return axiosClient.get(url)
+    getOTP : () => {
+        console.log(Cookies.get("access_token"));
+        const url = `/users/otp/send`
+        const BASE_URL = process.env.REACT_APP_BASE_URL_API
+        const axiosCustom = axios.create({ 
+            baseURL: BASE_URL,
+            headers: {
+                'content-type': 'application/json',
+                'Authorization':`Bearer ${Cookies.get("access_token")}`
+            },
+            withCredentials: true,
+        })
+        return axiosCustom.get(url)
+    },
+
+    verifyOTP: (otp) => {
+        const url = `/users/active?otp=${otp}`
+        return axiosClient.get(url);
+    },
+
+    loginUserWithRememberToken : (persistent_token) => {
+        const url = `/users/login/persistent`
+        const BASE_URL = process.env.REACT_APP_BASE_URL_API
+        const axiosCustom = axios.create({ 
+            baseURL: BASE_URL,
+            headers: {
+                'content-type': 'application/json',
+                'persistent_token':`Bearer ${persistent_token}`
+            },
+            withCredentials: true,
+        })
+        return axiosCustom.get(url)
     },
 
     loginWithThirdPartyInformation : (email) => {

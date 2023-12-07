@@ -10,7 +10,7 @@ import { createDisplayChatBox, addMessageInChatStore, saveInReduxAndLocalStorage
 import { addChatRoom, setMessageStatusToReceivedInRoom } from '../../../redux/chatSlice';
 import { modifiedChatRoomId, addFriendOnline, removeFriendOnline } from '../../../redux/authSlice';
 import chatAPI from '../../../services/chatAPI';
-import { useDispatch } from 'react-redux/es/hooks/useDispatch';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { setToast } from '../../toast/ToastContainer';
 
@@ -23,10 +23,10 @@ function ChatListCurrent({ socket }) {
     const displayChatArr = useSelector(state => state.chat.displayChat)
     const minimizeChatArr = useSelector(state => state.chat.minimizeChat)
     const sound = useRef()
-    
+
     useEffect(() => {
         const payload = {
-            userId: currentUserId, 
+            userId: currentUserId,
             friend: currentUser.friend ? JSON.parse(currentUser.friend) : null,
         }
         socket.current.emit('addUserOnline', payload)
@@ -42,16 +42,16 @@ function ChatListCurrent({ socket }) {
 
         async function handleServerSendFirstMessage(payload) {
             socket.current.emit('joinRoom', payload.roomId)
-            const newChatRoomIdArr = roomArr ? [ ...roomArr, payload.roomId ] : [ payload.roomId ]
+            const newChatRoomIdArr = roomArr ? [...roomArr, payload.roomId] : [payload.roomId]
             const newChatRoom = JSON.stringify(newChatRoomIdArr)
-            const res = await chatAPI.getMessages({ idRoomString: JSON.stringify([ payload.roomId ]) })
+            const res = await chatAPI.getMessages({ idRoomString: JSON.stringify([payload.roomId]) })
             store.dispatch(addChatRoom(res.data.chat))
             store.dispatch(modifiedChatRoomId(newChatRoom))
             createDisplayChatBox(null, null, null, payload.roomId)
             sound.current.play()
         }
         async function handleServerSendMessage(payload) {
-            const roomArr = JSON.parse(store.getState().auth.login.user.userInformation.chatRoom) 
+            const roomArr = JSON.parse(store.getState().auth.login.user.userInformation.chatRoom)
             const roomIndex = roomArr.indexOf(payload.roomId)
             await addMessageInChatStore(roomIndex, payload)
             const currentDisplayChatArr = JSON.parse(localStorage.getItem('displayChat'))
@@ -71,7 +71,7 @@ function ChatListCurrent({ socket }) {
                 dispatch(removeFriendOnline(userDisconnect))
             }
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     function handleDeleteMinimizeChat(Chat) {
@@ -97,13 +97,13 @@ function ChatListCurrent({ socket }) {
         const displayAvatar = getDisplayAvatar(chatRoomMemberAvatar)
         return (
             <li key={roomId} className="pop-up-item">
-                <img 
-                    src={displayAvatar ? displayAvatar : defaultAvatar} className="pop-up-image-user" 
+                <img
+                    src={displayAvatar ? displayAvatar : defaultAvatar} className="pop-up-image-user"
                     alt="" onClick={() => handlePopUpChatBox(roomId)}
                 />
                 <div className="exit-pop-up-item" onClick={() => handleDeleteMinimizeChat(roomId)}>
-                    <FontAwesomeIcon icon={faXmark} className="icon-exit"/>
-                </div> 
+                    <FontAwesomeIcon icon={faXmark} className="icon-exit" />
+                </div>
             </li>
         )
         // function getDisplayName(chatMemberFullName) {
@@ -114,7 +114,7 @@ function ChatListCurrent({ socket }) {
         //             return chatMemberFullName[0]
         //         }
         //     } else {
-                
+
         //     }
         // }
         function getDisplayAvatar(chatMemberAvatar) {
@@ -122,7 +122,7 @@ function ChatListCurrent({ socket }) {
             if (chatMemberAvatar.length === 2) {
                 displayAvatar = (chatMemberAvatar[0] === currentUser.avatar) ? chatMemberAvatar[1] : chatMemberAvatar[0]
             } else {
-                
+
             }
             return displayAvatar
         }
@@ -132,53 +132,53 @@ function ChatListCurrent({ socket }) {
         <div className="chat-list-current">
             <audio ref={sound} src={messageSound} />
             <div className="pop-up disable-select">
-                <div 
+                <div
                     role="button" className="btn-circle pop-up-button"
                     onClick={() => setToast(
-                        null, 
-                        'Tính năng này hiện chưa hoàn thiện, chúng tôi sẽ cập nhật sau.', 
-                        'notification', 
-                        3500, 
+                        null,
+                        'Tính năng này hiện chưa hoàn thiện, chúng tôi sẽ cập nhật sau.',
+                        'notification',
+                        3500,
                         themeMode === ' dark' ? true : false
                     )}
                 >
-                    <FontAwesomeIcon icon={faPen} className="pop-up-chat-icon"/>
+                    <FontAwesomeIcon icon={faPen} className="pop-up-chat-icon" />
                 </div>
                 <ul className="pop-up-list">
-                {
-                    minimizeChatArr?.map((chat, index) => { 
-                        return (
-                            typeof chat !== "number"
-                                ?
-                                <li key={index} className="pop-up-item">
-                                    <img 
-                                        src={chat.avatar ? chat.avatar : defaultAvatar} className="pop-up-image-user" 
-                                        alt="" onClick={() => handlePopUpChatBox(chat)}
-                                    />
-                                    <div className="exit-pop-up-item" onClick={() => handleDeleteMinimizeChat(chat)}>
-                                        <FontAwesomeIcon icon={faXmark} className="icon-exit"/>
-                                    </div> 
-                                </li>
-                                :
-                                displayMinimizeChatWithRoomID(chat)
-                        )
-                    })
-                }
+                    {
+                        minimizeChatArr?.map((chat, index) => {
+                            return (
+                                typeof chat !== "number"
+                                    ?
+                                    <li key={index} className="pop-up-item">
+                                        <img
+                                            src={chat.avatar ? chat.avatar : defaultAvatar} className="pop-up-image-user"
+                                            alt="" onClick={() => handlePopUpChatBox(chat)}
+                                        />
+                                        <div className="exit-pop-up-item" onClick={() => handleDeleteMinimizeChat(chat)}>
+                                            <FontAwesomeIcon icon={faXmark} className="icon-exit" />
+                                        </div>
+                                    </li>
+                                    :
+                                    displayMinimizeChatWithRoomID(chat)
+                            )
+                        })
+                    }
                 </ul>
             </div>
             <div className="chat-box-group">
-            {
-                displayChatArr?.map((chat, index) => {
-                    return (
-                        typeof chat !== "number" 
-                            ?
-                            <ChatBox key={index} socket={socket} noChatPrevious={chat} />
-                            :
-                            <ChatBox key={index} socket={socket} roomId={chat} />
-                    )
+                {
+                    displayChatArr?.map((chat, index) => {
+                        return (
+                            typeof chat !== "number"
+                                ?
+                                <ChatBox key={index} socket={socket} noChatPrevious={chat} />
+                                :
+                                <ChatBox key={index} socket={socket} roomId={chat} />
+                        )
 
-                })
-            }
+                    })
+                }
             </div>
         </div>
     )

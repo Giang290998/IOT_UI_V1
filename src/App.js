@@ -14,36 +14,41 @@ import store from './redux/store';
 import { setFriendOnline } from './redux/authSlice';
 
 function App() {
-    const socket = useRef()
-    const isConnectedSocketServer = useRef(false)
+    // const socket = useRef()
+    // const isConnectedSocketServer = useRef(false)
     const themeMode = localStorage.getItem("themeMode") === 'dark' ? ' dark' : '';
-    const currentUser = useSelector(state => state.auth.login.user?.userInformation?.userId)
+    const activeUser = useSelector(state => state.auth.login?.user?.isActive)
     const hasChatData = useSelector(state => state.chat.loadStatus) === 'OK' ? true : false
     const reRenderApp = useForceUpdate()
-    if (currentUser && !isConnectedSocketServer.current) {
-        socket.current = io(process.env.REACT_APP_SOCKET_URL)
-        isConnectedSocketServer.current = true
-        socket.current.once('serverResponseAllFriendOnline', (payload) => store.dispatch(setFriendOnline(payload)))
-    }
+    // if (activeUser && !isConnectedSocketServer.current) {
+    //     socket.current = io(process.env.REACT_APP_SOCKET_URL)
+    //     isConnectedSocketServer.current = true
+    //     socket.current.once('serverResponseAllFriendOnline', (payload) => store.dispatch(setFriendOnline(payload)))
+    // }
 
-    console.log(currentUser)
+    console.log(activeUser)
 
     return (
         <div className={"app"+themeMode}>
         {   
-            currentUser
+            activeUser
                 ?
                 <>
                     <Topbar 
-                        reRenderApp={reRenderApp} socket={socket} 
-                        isConnectedSocketServer={isConnectedSocketServer}
+                        reRenderApp={reRenderApp} 
+                        // socket={socket} 
+                        // isConnectedSocketServer={isConnectedSocketServer}
                     />
                     {
-                        (currentUser && hasChatData) && <ChatListCurrent socket={socket} /> 
+                        (activeUser && hasChatData) && <ChatListCurrent 
+                            // socket={socket} 
+                        /> 
                     } 
                     <Routes>
                         <Route path='/' element={ <Home/> }/>
-                        <Route path='/:userId' element={ <Profile reRenderApp={reRenderApp} socket={socket}/> }/>
+                        <Route path='/:userId' element={ <Profile reRenderApp={reRenderApp} 
+                            // socket={socket}
+                        /> }/>
                         <Route path='/:userId/introduce' element={ <Profile reRenderApp={reRenderApp}/> }/>
                         <Route path='/:userId/friends' element={ <Profile reRenderApp={reRenderApp}/> }/>
                         <Route path='/:userId/image' element={ <Profile reRenderApp={reRenderApp}/> }/>   

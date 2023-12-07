@@ -10,7 +10,7 @@ import { createDisplayChatBox } from '../../utils/chatFunction';
 
 function Rightbar() {
     const themeMode = useSelector(state => state.auth.themeMode) === 'dark' ? ' dark' : '';
-    const chatRoom = useSelector(state => state.auth.login.user.userInformation.chatRoom)
+    const chatRoom = useSelector(state => state.auth.login.user?.userInformation?.chatRoom)
     const chatRoomIdArr = chatRoom ? JSON.parse(chatRoom) : null
     const friendInfo = useSelector(state => state.auth.friendInfo)
     const friendOnline = useSelector(state => state.auth.friendOnline)
@@ -35,16 +35,16 @@ function Rightbar() {
     }
 
     return (
-        <div className={"rightbar-wrapper"+themeMode}>
+        <div className={"rightbar-wrapper" + themeMode}>
             <div className="your-page-wrapper">
                 <div className="your-page-top">
                     <span className="your-page-title">Trang của bạn</span>
                     <div className="extra-wrapper-icon">
-                        <FontAwesomeIcon icon={faEllipsis} className="dot-icon"/>
+                        <FontAwesomeIcon icon={faEllipsis} className="dot-icon" />
                     </div>
                 </div>
                 <div className="your-page-contain">
-                    <ImgDesc desc="Page này của tui!"/>
+                    <ImgDesc desc="Page này của tui!" />
                 </div>
             </div>
             <div className="your-friend-wrapper">
@@ -54,7 +54,7 @@ function Rightbar() {
                         <FontAwesomeIcon icon={faMagnifyingGlass} className="dot-icon"/>
                     </div> */}
                     <div className="extra-wrapper-icon">
-                        <FontAwesomeIcon icon={faEllipsis} className="dot-icon"/>
+                        <FontAwesomeIcon icon={faEllipsis} className="dot-icon" />
                     </div>
                 </div>
                 <div className="your-friend-contain">
@@ -64,12 +64,12 @@ function Rightbar() {
                             friendOnline.map(friend => {
                                 const info = friendInfo.find(frOnline => friend === frOnline.userId)
                                 return (
-                                    <div 
+                                    <div
                                         key={info.id}
                                         className="wrap-user-online"
-                                        onClick={() => handlePopUpNormalChat(info.userId, info.firstName+" "+info.lastName, info.avatar)}
+                                        onClick={() => handlePopUpNormalChat(info.userId, info.firstName + " " + info.lastName, info.avatar)}
                                     >
-                                        <UserOnline desc={info.firstName+" "+info.lastName} img={info.avatar}/>
+                                        <UserOnline desc={info.firstName + " " + info.lastName} img={info.avatar} />
                                     </div>
                                 )
                             })
@@ -92,13 +92,13 @@ function Rightbar() {
                 <div className="group-chat-top">
                     <span className="group-chat-title">Trò chuyện nhóm</span>
                     <div className="extra-wrapper-icon">
-                        <FontAwesomeIcon icon={faEllipsis} className="dot-icon"/>
+                        <FontAwesomeIcon icon={faEllipsis} className="dot-icon" />
                     </div>
                 </div>
                 <div className="group-chat-contain">
-                    <ImgDesc desc="Nhóm Sugar Daddy"/>
-                    <ImgDesc desc="Nhóm chăn máy bay."/>
-                    <ImgDesc desc="Tạo nhóm mới" img="https://cdn3.iconfinder.com/data/icons/eightyshades/512/14_Add-512.png" className="button-create"/>
+                    <ImgDesc desc="Nhóm Sugar Daddy" />
+                    <ImgDesc desc="Nhóm chăn máy bay." />
+                    <ImgDesc desc="Tạo nhóm mới" img="https://cdn3.iconfinder.com/data/icons/eightyshades/512/14_Add-512.png" className="button-create" />
                 </div>
             </div>
         </div>

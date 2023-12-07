@@ -78,8 +78,8 @@ function CreatePostForm() {
         const text = $('div[id="text-content"]').textContent
         if (text || postImageURL) {
             const newPost = {
-                id: currentUser.userId, 
-                textContent: text, 
+                id: currentUser.userId,
+                textContent: text,
                 imageContent: postImageURL,
                 mode: mode,
             }
@@ -89,7 +89,7 @@ function CreatePostForm() {
                 displayPostForm()
             }
         } else {
-            setCreatingPost(false)
+            setCreatingPost(false);
         }
     }
     function handleChangeTextPostInput(event) {
@@ -101,13 +101,13 @@ function CreatePostForm() {
     }
 
     return (
-        <div className={"create-post-form"+themeMode}>  
+        <div className={"create-post-form" + themeMode}>
             <div className="post-form-click">
                 <div className="post-form-click-wrapper-top">
-                    <Link to={`/${currentUser.userId}`}>
-                        <img src={ currentUser.avatar ? currentUser.avatar : defaultAvatar} alt="" className="user-img disable-select"/>
+                    <Link to={`/${currentUser?.userId || 1}`}>
+                        <img src={currentUser?.avatar ? currentUser?.avatar : defaultAvatar} alt="" className="user-img disable-select" />
                     </Link>
-                    <p className="post-form-click-form" onClick={displayPostForm}>{currentUser.lastName} ơi, bạn đang nghĩ gì thế?</p>
+                    <p className="post-form-click-form" onClick={displayPostForm}>{currentUser?.lastName} ơi, bạn đang nghĩ gì thế?</p>
                 </div>
                 <div className="post-form-click-wrapper-bottom">
                     <div className="post-form-click-add" onClick={displayPostForm}>
@@ -125,47 +125,47 @@ function CreatePostForm() {
                 </div>
             </div>
             <div id="post-form-modal" className="modal hidden">
-                <div className="modal__overlay"> 
-                </div> 
-                <div className="modal__body"> 
+                <div className="modal__overlay">
+                </div>
+                <div className="modal__body">
                     {/* Post form */}
                     <div className="post-form">
                         <div className="post-form__container">
                             <div className="post-form__top">
                                 <span className="post-form__heading">Tạo bài viết</span>
                                 <div className="exit-icon-wrapper" onClick={displayPostForm}>
-                                    <FontAwesomeIcon icon={faXmark} className="exit-icon"/>
+                                    <FontAwesomeIcon icon={faXmark} className="exit-icon" />
                                 </div>
                             </div>
                             <div className="post-form__main">
                                 <div className="post-form__main-top">
                                     <div className="post-form__author">
-                                        <img src={ currentUser.avatar ? currentUser.avatar : "https://i.stack.imgur.com/YaL3s.jpg"} alt="" className="auhtor-img" />
-                                        <span className="author-name">{currentUser.firstName+" "+currentUser.lastName}</span>
+                                        <img src={currentUser?.avatar ? currentUser?.avatar : "https://i.stack.imgur.com/YaL3s.jpg"} alt="" className="auhtor-img" />
+                                        <span className="author-name">{currentUser?.firstName + " " + currentUser?.lastName}</span>
                                     </div>
                                     <div className="post-form__mode disable-select hidden" onClick={showModeOption}>
-                                        <FontAwesomeIcon id="public" icon={faEarthAmericas} className="mode-icon"/>
-                                        <FontAwesomeIcon id="friend" icon={faUserGroup} className="mode-icon hidden"/> 
-                                        <FontAwesomeIcon id="private" icon={faLock} className="mode-icon hidden"/>
+                                        <FontAwesomeIcon id="public" icon={faEarthAmericas} className="mode-icon" />
+                                        <FontAwesomeIcon id="friend" icon={faUserGroup} className="mode-icon hidden" />
+                                        <FontAwesomeIcon id="private" icon={faLock} className="mode-icon hidden" />
                                         <span className="mode-desc" value={mode}>{descMode}</span>
-                                        <FontAwesomeIcon icon={faCaretDown} className="down-icon"/>
+                                        <FontAwesomeIcon icon={faCaretDown} className="down-icon" />
                                         <ul className="post-form__mode-list hidden" id="mode-list">
                                             <li className="post-form__mode-item" value="public"
-                                                onClick={() => handleMode('public') }
+                                                onClick={() => handleMode('public')}
                                             >
-                                                <FontAwesomeIcon icon={faEarthAmericas} className="mode-icon"/>
+                                                <FontAwesomeIcon icon={faEarthAmericas} className="mode-icon" />
                                                 <span className="mode-desc">Công khai</span>
                                             </li>
                                             <li className="post-form__mode-item" value="friend"
-                                                onClick={() => handleMode('friend') }
+                                                onClick={() => handleMode('friend')}
                                             >
-                                                <FontAwesomeIcon icon={faUserGroup} className="mode-icon"/>
+                                                <FontAwesomeIcon icon={faUserGroup} className="mode-icon" />
                                                 <span className="mode-desc">Bạn bè</span>
                                             </li>
                                             <li className="post-form__mode-item" value="private"
-                                                onClick={() => handleMode('private') }
+                                                onClick={() => handleMode('private')}
                                             >
-                                                <FontAwesomeIcon icon={faLock} className="mode-icon"/>
+                                                <FontAwesomeIcon icon={faLock} className="mode-icon" />
                                                 <span className="mode-desc">Chỉ mình tôi</span>
                                             </li>
                                         </ul>
@@ -174,58 +174,58 @@ function CreatePostForm() {
                                 <div className="post-form__main-content">
                                     <div className="wrapper-text-content-layer1">
                                         <div className="wrapper-text-content-layer2">
-                                            <div 
+                                            <div
                                                 contentEditable="true"
                                                 id="text-content" className="text-content"
                                                 onInput={handleChangeTextPostInput}
                                             >
                                             </div>
-                                            <span 
+                                            <span
                                                 id="placeholder-text-post"
                                                 className="placeholder-text-post disable-select"
                                                 onClick={() => $('div[id="text-content"]').focus()}
-                                            >{currentUser.lastName +" ơi, bạn đang nghĩ gì thế ?"}</span>
+                                            >{currentUser?.lastName + " ơi, bạn đang nghĩ gì thế ?"}</span>
                                         </div>
                                     </div>
                                     {
-                                        postImageReview && <div 
+                                        postImageReview && <div
                                             className="wrapper-post-img"
                                         >
-                                            <img src={postImageReview} alt="" className="post-img"/>
+                                            <img src={postImageReview} alt="" className="post-img" />
                                         </div>
                                     }
-                                    
+
                                 </div>
                             </div>
 
                             <div className="post-form__bottom">
                                 <div className="bottom-tag-wrapper">
                                     <span className="tag-title">Thêm vào bài viết</span>
-                                    <input hidden id="post-img" type="file" accept="image/*" onChange={event => handleShowPostImg(event)}/>
+                                    <input hidden id="post-img" type="file" accept="image/*" onChange={event => handleShowPostImg(event)} />
                                     <div className="icon-wrapper" onClick={() => $('input[id="post-img"]').click()}>
-                                        <FontAwesomeIcon icon={faPhotoFilm} className="photo-icon"/>
+                                        <FontAwesomeIcon icon={faPhotoFilm} className="photo-icon" />
                                     </div>
                                     <div className="icon-wrapper">
-                                        <FontAwesomeIcon icon={faUserTag} className="user-tag-icon"/>
+                                        <FontAwesomeIcon icon={faUserTag} className="user-tag-icon" />
                                     </div>
                                     <div className="icon-wrapper">
-                                        <FontAwesomeIcon icon={faFaceLaugh} className="emote-icon"/>
+                                        <FontAwesomeIcon icon={faFaceLaugh} className="emote-icon" />
                                     </div>
                                 </div>
                                 <button className="btn btn--primary btn-modified" onClick={handleCreatePost}>
-                                {
-                                    creatingPost
-                                    ?
-                                    <CircularProgress className="creating-post-icon" color="#fff"/>
-                                    :
-                                    <span>Đăng</span>
-                                }
+                                    {
+                                        creatingPost
+                                            ?
+                                            <CircularProgress className="creating-post-icon" color="#fff" />
+                                            :
+                                            <span>Đăng</span>
+                                    }
                                 </button>
-                            </div>     
+                            </div>
                         </div>
-                    </div>  
-                </div> 
-            </div> 
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

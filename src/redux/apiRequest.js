@@ -18,23 +18,22 @@ export const getInfoUser = async (user, dispatch) => {
     }
 }
 
-export const saveInfoUser = (data) => {
-    const { errCode, message, ...info } = data
+export const saveInfoUser = (userInfor) => {
+    // const { errCode, message, ...info } = data
     const themeMode = localStorage.getItem('themeMode') ? localStorage.getItem('themeMode') : 'light'
-    localStorage.setItem("rememberToken",`${info.rememberToken}`)
     store.dispatch(modifiedThemeMode(themeMode))
-    store.dispatch(saveUser(info))
-    store.dispatch(getNotification(info.userInformation.userId))
-    store.dispatch(getAllPost(info.userInformation.userId))
-    if (info.userInformation.chatRoom) {
-        store.dispatch(getAllMessage(info.userInformation.chatRoom))
-    } else {
-        store.dispatch(setNoChatRoom())
-    }
-    if (info.friendInfo) {
-        store.dispatch(setFriendInfo(info.friendInfo))
-    }
-    getWeatherInfo()
+    store.dispatch(saveUser(userInfor))
+    // store.dispatch(getNotification(info.userInformation.userId))
+    // store.dispatch(getAllPost(info.userInformation.userId))
+    // if (info.userInformation.chatRoom) {
+    //     store.dispatch(getAllMessage(info.userInformation.chatRoom))
+    // } else {
+    //     store.dispatch(setNoChatRoom())
+    // }
+    // if (info.friendInfo) {
+    //     store.dispatch(setFriendInfo(info.friendInfo))
+    // }
+    // getWeatherInfo()
 }
 
 export async function getWeatherInfo() {

@@ -1,0 +1,37 @@
+.chart{
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(0, 0, 255, 0.5);
+    background-color: rgba(0, 0, 255, 0.05);
+    // .title{
+
+    // }
+    // .wrap-content{
+    //     .wrap-chart-icon{
+
+    //     }
+    //     .wrap-chart-content{
+    //         .content-chart{
+
+    //         }
+    //     }
+    // }
+}
+
+.chart.dark {
+    .title{
+        color: #e4e6eb;
+    }
+    .wrap-content{
+        // .wrap-chart-icon{
+
+        // }
+        .wrap-chart-content{
+            .content-chart{
+                color: #e4e6eb;
+            }
+        }
+    }
+}
