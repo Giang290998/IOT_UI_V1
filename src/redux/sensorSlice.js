@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import notificationAPI from "../services/notificationAPI";
+import DeviceDataAPI from "../services/deviceDataAPI";
+const moment = require('moment-timezone');
 
 const SensorSlice = createSlice({
     name: "sensor",
@@ -10,10 +11,14 @@ const SensorSlice = createSlice({
         RT_concentration: { data: [], time: [] },
         RT_water: { data: [], time: [] },
         
-        temp: { data: [], time: [] },
-        pH: { data: [], time: [] },
-        concentration: { data: [], time: [] },
-        water: { data: [], time: [] },
+        temp: { data: [], time: [], avg: null },
+        pH: { data: [], time: [], avg: null },
+        concentration: { data: [], time: [], avg: null },
+        water: { data: [], time: [], avg: null },
+
+        sensor_data: null,
+
+        alarm: null,
     },
     reducers:{
         updateRealTimeData: (state, action) => {
@@ -27,7 +32,7 @@ const SensorSlice = createSlice({
             let new_RT_temp = { data: [ ...state.RT_temp.data, new_data[0] ], time: [ ...state.RT_temp.time, timestamp ]}
             let new_RT_concentration = { data: [ ...state.RT_concentration.data, new_data[1] ], time: [ ...state.RT_concentration.time, timestamp ]}
             let new_RT_pH = { data: [ ...state.RT_pH.data, new_data[2] ], time: [ ...state.RT_pH.time, timestamp ]}
-            let new_RT_water = { data: [ ...state.RT_water.data, new_data[3] ], time: [ ...state.RT_water.time, timestamp ]}
+            let new_RT_water = { data: [ ...state.RT_water.data, (new_data[3] > 0 ? new_data[3] : 0) ], time: [ ...state.RT_water.time, timestamp ]}
 
             state.RT_temp.data = new_RT_temp.data.slice(-30);
             state.RT_temp.time = new_RT_temp.time.slice(-30);
@@ -46,35 +51,112 @@ const SensorSlice = createSlice({
             state.RT_concentration = { data: [], time: [] } ;
             state.RT_water = { data: [], time: [] } ;
 
-            state.temp = { data: [], time: [] } ;
-            state.pH = { data: [], time: [] } ;
-            state.concentration = { data: [], time: [] } ;
-            state.water = { data: [], time: [] } ;
+            state.temp = { data: [], time: [], avg: null };
+            state.pH = { data: [], time: [], avg: null };
+            state.concentration = { data: [], time: [], avg: null };
+            state.water = { data: [], time: [], avg: null };
         },
     },
     extraReducers: builder => {
-        builder.addCase(getSensor.pending, (state) => {
+        builder.addCase(GetAllDeviceData.pending, (state) => {
             state.status = 'loading'
         })
-        builder.addCase(getSensor.fulfilled, (state, action) => {
+        builder.addCase(GetAllDeviceData.fulfilled, (state, action) => {
             state.status = 'OK'
-            state.friendRequest = action.payload.allFriendRequest
+            const sensor_data = action.payload;
+            state.sensor_data = sensor_data;
+
+            let data_temp = [];
+            let data_pH = [];
+            let data_concentration = [];
+            let data_water = [];
+            let data_time = [];
+            for (let i = 0; i < sensor_data.length; i++) {
+                data_temp.push(sensor_data[i].data[0]);
+                data_concentration.push(sensor_data[i].data[1]);
+                data_pH.push(sensor_data[i].data[2]);
+                data_water.push(sensor_data[i].data[3]);
+                data_time.push(convertTimeFormat(sensor_data[i].time));
+            }
+
+            state.temp = { data: data_temp, time: data_time, avg: calculateAverage(data_temp) }
+            state.pH = { data: data_pH, time: data_time, avg: calculateAverage(data_pH) }
+            state.concentration = { data: data_concentration, time: data_time, avg: calculateAverage(data_concentration) }
+            state.water = { data: data_water, time: data_time, avg: calculateAverage(data_water) }
+
         })
-        builder.addCase(getSensor.rejected, (state) => {
+        builder.addCase(GetAllDeviceData.rejected, (state) => {
+            state.status = 'failed'
+        })
+
+        builder.addCase(GetAllAlarm.pending, (state) => {
+            state.status = 'loading'
+        })
+        builder.addCase(GetAllAlarm.fulfilled, (state, action) => {
+            state.status = 'OK'
+            state.alarm = action.payload
+        })
+        builder.addCase(GetAllAlarm.rejected, (state) => {
             state.status = 'failed'
         })
     }
 })
 
-export const getSensor = createAsyncThunk('Sensor/getSensor', async (userId) => {
+export const GetAllDeviceData = createAsyncThunk('Sensor/getAll', async () => {
     try {
-        // const res = await SensorAPI.getSensor(userId)
-        // return res.data
+        const res = await DeviceDataAPI.GetAllDeviceData();
+        return res.data
     } catch (error) {
-        throw new Error(error)
+        console.log(error)
+    }
+})
+export const GetAllAlarm = createAsyncThunk('Alarm/getAll', async () => {
+    try {
+        const res = await DeviceDataAPI.GetAllAlarm();
+        return res.data
+    } catch (error) {
+        console.log(error)
     }
 })
 export const { updateRealTimeData, deleteSensorStore } = SensorSlice.actions;
 export default SensorSlice.reducer;
 
 const formatNumber = (num) => (num < 10 ? `0${num}` : num);
+
+function convertTimeFormat(originalTimeString) {
+    // Tạo đối tượng Moment từ chuỗi thời gian ban đầu
+    const originalMoment = moment(originalTimeString);
+  
+    // Chuyển đổi sang múi giờ GMT+7
+    const gmt7Moment = originalMoment.tz('Asia/Ho_Chi_Minh');
+  
+    // Lấy thông tin ngày, giờ, phút và giây từ đối tượng Moment
+    const day = gmt7Moment.date();
+    const hours = gmt7Moment.hours();
+    const minutes = gmt7Moment.minutes();
+    const seconds = gmt7Moment.seconds();
+  
+    // Định dạng lại chuỗi theo định dạng mong muốn
+    const formattedString = `${formatNumber(day)} - ${formatNumber(hours)}:${formatNumber(minutes)}:${formatNumber(seconds)}`;
+  
+    return formattedString;
+}
+
+function calculateAverage(array) {
+    // Lọc ra các phần tử không phải null hoặc undefined
+    const filteredArray = array.filter(element => element !== null && element !== undefined);
+
+    // Kiểm tra xem mảng có phần tử không
+    if (filteredArray.length === 0) {
+        return 0; // Trả về 0 nếu mảng sau khi lọc không còn phần tử để tránh chia cho 0
+    }
+
+    // Chuyển đổi chuỗi thành số và tính tổng
+    const sum = filteredArray.reduce((acc, current) => acc + parseFloat(current), 0);
+
+    // Tính trung bình cộng
+    const average = sum / filteredArray.length;
+
+    return average;
+}
+  

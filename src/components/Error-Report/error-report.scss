@@ -1,0 +1,364 @@
+@import '../../common/css/base.scss';
+// .table-container {
+// width: 80%;
+// }
+
+// table {
+// width: 100%;
+// border-collapse: collapse;
+// margin-top: 20px;
+
+// th, td {
+//     border: 1px solid #ddd;
+//     padding: 8px;
+//     text-align: left;
+// }
+
+// th {
+//     background-color: #f2f2f2;
+// }
+
+// td {
+//     text-align: center;
+// }
+
+// .action-buttons {
+//     button {
+//     margin: 0 5px;
+//     padding: 5px 10px;
+//     cursor: pointer;
+//     }
+
+//     .promote {
+//     background-color: #4CAF50;
+//     color: white;
+//     }
+
+//     .demote {
+//     background-color: #f44336;
+//     color: white;
+//     }
+
+//     .terminate {
+//     background-color: #333;
+//     color: white;
+//     }
+// }
+// }
+
+
+.manager {
+    display: flex;
+    flex-direction: column;
+    .table-container { 
+        table {
+            width: 100%;
+            border-radius: 2px;
+            border: 1px solid #b0b3b8;
+            thead {
+                font-size: 14px;
+                tr {
+                    th {
+                        border: 1px solid #b0b3b8;
+                        height: 30px;
+                    }
+                }
+            }
+            tbody {
+                font-size: 16px;
+                tr {
+                    td {
+                        .column-content {
+                            width: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                        position: relative;
+                        .btn.action-btn {
+                            display: flex;
+                            align-items: center;
+                            max-width: 100px;
+                            height: 40px;
+                            justify-content: center;
+                            background-color: var(--primary-color);
+                            border: 6px;
+                            &:hover {
+                                cursor: pointer;
+                            }
+                            .action-btn-icon {
+                                color: white;
+                            }
+                        }
+                        .action-list {
+                            z-index: 1;
+                            display: none;
+                            position: absolute;
+                            list-style: none;
+                            background-color: #fff;
+                            padding: 4px 0;
+                            border-radius: 6px;
+                            border: 2px solid #b0b3b8;
+                            .action-item {
+                                display: flex;
+                                align-items: center;
+                                padding: 10px;
+                                &:hover {
+                                    cursor: pointer;
+                                    background-color: #bbdefb;
+                                }
+                                .action-icon {
+    
+                                }
+                                .action-title {
+                                    padding-left: 10px;
+                                }
+    
+                                .action-icon.promote {
+                                    color: blue;
+                                }
+                                .action-icon.demote {
+                                    color: orange;
+                                }
+                                .action-icon.out {
+                                    color: red;
+                                }
+                            }
+                        }
+                        .action-list.visible {
+                            display: block;
+                        }
+                    }
+                }
+                tr:nth-child(even) {
+                    background-color: #bbdefb;
+                    // color: white;
+                }
+            }
+        }
+    }
+    .add-staff-btn {
+        margin: 20px 0;
+        height: 50px;
+        font-size: 26px;
+        .add-staff-btn-title {
+            font-size: 20px;
+            margin-left: 10px;
+        }
+    }
+    .modal {
+        .modal__body {
+            .register {
+                margin: 10px 20px 20px 20px;
+                .register__container {
+                    width: 380px;
+                    .register-top {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 10px;
+                        .register-title {
+                            display: flex;
+                            align-items: center;
+                            .main-title {
+                                font-size: 3rem;
+                                font-weight: 500;
+                                color: var(--text-color);
+                            }
+                        }
+                        .register-exit {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 50%;
+                            background-color: var(--gray-hover-color);
+                            &:hover {
+                                cursor: pointer;
+                                border: 1px solid rgba(0, 0, 0, 0.3);
+                            }
+                            .exit-register-icon {
+                                font-size: 3rem;
+                            }
+                        }
+                    }
+                    .register-contain {
+                        display: flex;
+                        flex-direction: column;
+                        font-size: 1.6rem;
+                        color: var(--text-color);
+                        .create-account-wrapper {
+                            display: flex;
+                            flex-direction: column;
+                            .input-group {
+                                position: relative;
+                                .input-title {
+                                    padding-bottom: 4px;
+                                    color: black;
+                                }
+                                .input {
+                                    width: 100%;
+                                    height: 50px;
+                                    padding-left: 14px;
+                                    font-size: 1.6rem;
+                                    border-radius: 4px;
+                                    border:1px solid rgba(0, 0, 0, 0.3);
+                                    &:focus {
+                                        outline: none;
+                                    }
+                                }
+                                .input.error-color {
+                                    border: 2px solid red;
+                                }
+                                .input.warning-color {
+                                    border: 2px solid orange;
+                                }
+                                .input-desc {
+                                    padding-left: 14px;
+                                    font-size: 1.2rem;
+                                }
+                                .input-desc.error-color {
+                                    color: red;
+                                }
+                                .input-desc.warning-color {
+                                    color: orange;
+                                }
+                                .icon {
+                                    position: absolute;
+                                    font-size: 20px;
+                                    right: 10px;
+                                    top: 40%;
+                                }
+                                .icon.hidden {
+                                    display: none;
+                                }
+                                .icon.error-color {
+                                    color: red;
+                                }
+                                .icon.warning-color {
+                                    color: orange;
+                                }
+                            }
+                            .register-id {
+                                margin-bottom: 8px;
+                                
+                            }
+                            .register-password {
+                                margin-bottom: 8px;
+                                
+                            }
+                            .register-password-confirm {
+                                margin-bottom: 8px;
+                                
+                            }
+                        }
+                        .search-staff {
+                            height: 46px;
+                            font-size: 20px;
+                            .wrap-spin-search {
+                                font-size: 12px;
+                            }
+                            p {
+                                font-size: 18px;
+                                margin-left: 6px;
+                            }
+                        }
+                        .btn.btn-register {
+                            margin-top: 10px;
+                            height: 42px;
+                            font-size: 2.2rem;
+                            font-weight: 500;
+                            background-color: rgb(47, 204, 47);
+                            color: var(--white-color);
+                            &:hover {
+                                background-color: rgb(44, 179, 44);
+                            }
+                            .wrap-spin-register {
+                                font-size: 10px;
+                            }
+                        }
+                        .wrap-new-staff {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-around;
+                            height: 60px;
+                            margin: 20px 0;
+                            border: 2px solid #b0b3b8;
+                            border-radius: 6px;
+                            .new-staff-avatar {
+                                border-radius: 50%;
+                                height: 90%;
+                            }
+                            .new-staff-name {
+                                
+                            }
+                            .add-staff {
+                                height: 80%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.table-container.dark { 
+    table {
+        border: 1px solid #e4e6eb;
+        thead {
+            color: #e4e6eb;
+            tr {
+                th {
+                    border: 1px solid #e4e6eb;
+                }
+            }
+        }
+        tbody {
+            color: #e4e6eb;
+            tr {
+                td {
+                    .column-content {
+                    }
+                    .btn.action-btn {
+                        &:hover {
+                            cursor: pointer;
+                        }
+                        .action-btn-icon {
+                            color: white;
+                        }
+                    }
+                    .action-list {
+                        background-color: #424242;
+                        border: 2px solid #b0b3b8;
+                        .action-item {
+                            &:hover {
+                                // cursor: pointer;
+                                background-color: #757575;
+                            }
+                            // .action-icon {
+
+                            // }
+                            .action-title {
+                                padding-left: 10px;
+                            }
+
+                            .action-icon.promote {
+                                color: var(--primary-color);
+                            }
+                            // .action-icon.demote {
+                            //     color: orange;
+                            // }
+                            // .action-icon.out {
+                            //     color: red;
+                            // }
+                        }
+                    }
+                }
+            }
+            tr:nth-child(even) {
+                background-color: #424242;
+            }
+        }
+    }
+}

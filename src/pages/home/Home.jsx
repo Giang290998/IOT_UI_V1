@@ -14,6 +14,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTemperatureThreeQuarters, faWandMagicSparkles, faFlaskVial, faDroplet, faGear, faXmark } from "@fortawesome/free-solid-svg-icons";
 import mqttClient from '../../utils/mqttClient.js';
 import TextInput from '../../components/text-input/TextInput.jsx';
+import store from '../../redux/store.js';
+import { GetAllAlarm, GetAllDeviceData } from '../../redux/sensorSlice.js';
 
 function Home() {
     const $ = document.querySelector.bind(document);
@@ -30,7 +32,8 @@ function Home() {
 
     // mqttClient.subscribe("1/esp_to_ui/data_realtime");
     useEffect(() => {
-
+        store.dispatch(GetAllDeviceData())
+        store.dispatch(GetAllAlarm())
     }, [])
 
     const handleChangeTDS = useCallback((event) => {

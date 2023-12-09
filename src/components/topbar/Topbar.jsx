@@ -132,34 +132,34 @@ function Topbar({ reRenderApp
             const notificationTable = $('div[id="notification"]')
             const settingIcon = $('svg[id="setting-icon"]')
             const themeModeButton = $('li[id="theme-mode"]')
-            if (messageButton.contains(event.target)) {
-                setMessageUnread(0)
-                if (messageTable.classList.contains('hidden')) {
-                    messageTable.classList.remove('hidden')
-                    // messageButton.classList.add('select')
-                    const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[1]
-                    const icon = wrapIcon.shadowRoot.childNodes[1]
-                    icon.setAttribute('style', '--lord-icon-primary-base: #0088ff')
-                } else {
-                    messageTable.classList.add('hidden')
-                    // messageButton.classList.remove('select')
-                    const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[1]
-                    const icon = wrapIcon.shadowRoot.childNodes[1]
-                    icon.setAttribute(
-                        'style',
-                        themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb' : '--lord-icon-primary-base: #525252'
-                    )
-                }
-            } else {
-                messageTable.classList.add('hidden');
-                // messageButton.classList.remove('select')
-                const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[1]
-                const icon = wrapIcon.shadowRoot.childNodes[1]
-                icon?.setAttribute(
-                    'style',
-                    themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb' : '--lord-icon-primary-base: #525252'
-                )
-            }
+            // if (messageButton.contains(event.target)) {
+            //     setMessageUnread(0)
+            //     if (messageTable.classList.contains('hidden')) {
+            //         messageTable.classList.remove('hidden')
+            //         // messageButton.classList.add('select')
+            //         const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[1]
+            //         const icon = wrapIcon.shadowRoot.childNodes[1]
+            //         icon.setAttribute('style', '--lord-icon-primary-base: #0088ff')
+            //     } else {
+            //         messageTable.classList.add('hidden')
+            //         // messageButton.classList.remove('select')
+            //         const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[1]
+            //         const icon = wrapIcon.shadowRoot.childNodes[1]
+            //         icon.setAttribute(
+            //             'style',
+            //             themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb' : '--lord-icon-primary-base: #525252'
+            //         )
+            //     }
+            // } else {
+            //     messageTable.classList.add('hidden');
+            //     // messageButton.classList.remove('select')
+            //     const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[1]
+            //     const icon = wrapIcon.shadowRoot.childNodes[1]
+            //     icon?.setAttribute(
+            //         'style',
+            //         themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb' : '--lord-icon-primary-base: #525252'
+            //     )
+            // }
 
             if (settingButton.contains(event.target)) {
                 if (settingTable.classList.contains('hidden')) {
@@ -179,39 +179,39 @@ function Topbar({ reRenderApp
                 }
             }
 
-            if (notificationButton.contains(event.target)) {
-                if (notificationTable.classList.contains('hidden')) {
-                    notificationTable.classList.remove('hidden')
-                    // notificationButton.classList.add('select')
-                    const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[2]
-                    const icon = wrapIcon.shadowRoot.childNodes[1]
-                    icon.setAttribute('style', '--lord-icon-primary-base: #0088ff')
-                    if (!isExecuteControlClickNotificationNav.current) {
-                        controlClickNotificationNav()
-                        isExecuteControlClickNotificationNav.current = true
-                    }
-                } else {
-                    notificationTable.classList.add('hidden')
-                    // notificationButton.classList.remove('select')
-                    const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[2]
-                    const icon = wrapIcon.shadowRoot.childNodes[1]
-                    icon.setAttribute(
-                        'style',
-                        themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb' : '--lord-icon-primary-base: #525252'
-                    )
-                }
-            } else {
-                if (!notificationTable.contains(event.target)) {
-                    notificationTable.classList.add('hidden')
-                    // notificationButton.classList.remove('select')
-                    const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[2]
-                    const icon = wrapIcon.shadowRoot.childNodes[1]
-                    icon?.setAttribute(
-                        'style',
-                        themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb' : '--lord-icon-primary-base: #525252'
-                    )
-                }
-            }
+            // if (notificationButton.contains(event.target)) {
+            //     if (notificationTable.classList.contains('hidden')) {
+            //         notificationTable.classList.remove('hidden')
+            //         // notificationButton.classList.add('select')
+            //         const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[2]
+            //         const icon = wrapIcon.shadowRoot.childNodes[1]
+            //         icon.setAttribute('style', '--lord-icon-primary-base: #0088ff')
+            //         if (!isExecuteControlClickNotificationNav.current) {
+            //             controlClickNotificationNav()
+            //             isExecuteControlClickNotificationNav.current = true
+            //         }
+            //     } else {
+            //         notificationTable.classList.add('hidden')
+            //         // notificationButton.classList.remove('select')
+            //         const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[2]
+            //         const icon = wrapIcon.shadowRoot.childNodes[1]
+            //         icon.setAttribute(
+            //             'style',
+            //             themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb' : '--lord-icon-primary-base: #525252'
+            //         )
+            //     }
+            // } else {
+            //     if (!notificationTable.contains(event.target)) {
+            //         notificationTable.classList.add('hidden')
+            //         // notificationButton.classList.remove('select')
+            //         const wrapIcon = (document.querySelectorAll('#lord-icon-custom'))[2]
+            //         const icon = wrapIcon.shadowRoot.childNodes[1]
+            //         icon?.setAttribute(
+            //             'style',
+            //             themeMode === ' dark' ? '--lord-icon-primary-base: #e4e6eb' : '--lord-icon-primary-base: #525252'
+            //         )
+            //     }
+            // }
         }
         function controlClickCenterNav() {
             const tabs = $$('li[id="top-bar-center-item"]')
@@ -448,7 +448,7 @@ function Topbar({ reRenderApp
                     </div>
                 </div>
                 <div className="col l-3 m-3 s-3 topbar-right">
-                    <div
+                    {/* <div
                         className="btn-circle topbar__friend-request"
                         onClick={() => setToast(
                             null,
@@ -488,7 +488,7 @@ function Topbar({ reRenderApp
                                 </span>
                             }
                         </div>
-                    </div>
+                    </div> */}
                     <div className="btn-circle topbar__notification">
                         <div id="notification-btn" className="wrapper-icon disable-select">
                             <lord-icon

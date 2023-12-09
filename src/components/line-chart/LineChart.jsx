@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -27,7 +27,7 @@ ChartJS.register(
 
 function LineChart(
     { data, label, borderColor, backgroundColor, icon, icon_color, icon_size,
-        title, content, title_size, title_weight, content_size, content_weight, content_padding_left }
+        title, avg, title_size, title_weight, content_size, content_weight, content_padding_left }
 ) {
 
     const themeMode = useSelector(state => state.auth.themeMode) === 'dark' ? ' dark' : '';
@@ -41,16 +41,12 @@ function LineChart(
         },
     };
 
-    const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-    const dataSensor = [234, 324, 543, 345, 654, 678, 890]
-
     const dataObj = {
-        labels,
+        labels: label,
         datasets: [
             {
                 label: 'Dataset 1',
-                data: dataSensor,
+                data: data,
                 borderColor: borderColor,
                 backgroundColor: backgroundColor ?? 'rgba(255, 99, 132, 0.5)'
             },
@@ -68,7 +64,7 @@ function LineChart(
                     <p className="content-chart" style={{
                         fontSize: content_size, fontWeight: content_weight,
                         paddingLeft: content_padding_left ?? '6px'
-                    }}>{content}</p>
+                    }}>{avg}</p>
                 </span>
             </div>
             <Line options={options} data={dataObj} />
@@ -77,4 +73,4 @@ function LineChart(
 
 }
 
-export default LineChart;
+export default memo(LineChart);

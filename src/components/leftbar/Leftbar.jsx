@@ -4,20 +4,20 @@ import { faUsers, faNewspaper, faClock, faBell } from '@fortawesome/free-solid-s
 import { useSelector } from 'react-redux';
 import store from '../../redux/store';
 import { setPage } from '../../redux/authSlice';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 
-export default function Leftbar() {
+function Leftbar() {
     const themeMode = useSelector(state => state.auth.themeMode) === 'dark' ? ' dark' : '';
 
 
-    const listItemElements = document.querySelectorAll('li[id="iot-left-list"]');
+
+    // let a;
 
     useEffect(() => {
-
-        // Thêm sự kiện click cho mỗi thẻ li
+        // const T = setInterval(() => {
+        const listItemElements = document.querySelectorAll('li[id="iot-left-list"]');
         listItemElements.forEach((li, index) => {
             li.addEventListener('click', () => {
-                console.log(index)
                 store.dispatch(setPage(index));
                 listItemElements.forEach((li2, ind) => {
                     if (index === ind) {
@@ -28,6 +28,12 @@ export default function Leftbar() {
                 })
             });
         });
+        // }, 500)
+
+        // setTimeout(() => {
+        //     clearInterval(T)
+        // }, 2000)
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -77,3 +83,4 @@ export default function Leftbar() {
     );
 }
 
+export default memo(Leftbar);

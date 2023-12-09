@@ -70,9 +70,9 @@ class MQTTClient {
   }
 
   handleMessage(topic, message) {
-    console.log("--------------------------------------");
-    console.log(topic);
-    console.log(message.toString());
+    // console.log("--------------------------------------");
+    // console.log(topic);
+    // console.log(message.toString());
 
     if (topic === this.SUB_sensor_data_realtime) {
         let data = message.toString().split(', ');

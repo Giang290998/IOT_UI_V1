@@ -83,7 +83,7 @@ function Manager() {
                     <tbody>
                         {
                             staff.map((item, index) =>
-                                <tr>
+                                <tr key={index}>
                                     <td>
                                         <p className="column-content">{index + 1}</p>
                                     </td>
