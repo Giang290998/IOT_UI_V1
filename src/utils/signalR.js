@@ -1,4 +1,5 @@
 import { HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
+import 'dotenv/config';
 
 // Tạo một module hoặc đối tượng để chứa các hàm liên quan đến SignalR
 const SignalRHelper = (function () {
@@ -7,7 +8,7 @@ const SignalRHelper = (function () {
 
     function initializeConnection() {
         connection = new HubConnectionBuilder()
-            .withUrl("http://localhost:5030/hub/device-data") // Thay thế bằng địa chỉ hub của bạn
+            .withUrl(process.env.REACT_APP_SIGNAL_R_HOST) // Thay thế bằng địa chỉ hub của bạn
             .build();
 
         // Điều khiển sự kiện kết nối

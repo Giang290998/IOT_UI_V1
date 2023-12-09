@@ -48,7 +48,7 @@ import { updateRealTimeData } from '../redux/sensorSlice';
 
 class MQTTClient {
   constructor() {
-    this.client = mqtt.connect("mqtt://192.168.1.123:9001");
+    this.client = mqtt.connect(process.env.REACT_APP_MQTT_HOST);
 
     this.PUB_sensor_data_realtime = "/ui_to_esp/data_realtime";
     this.SUB_sensor_data_realtime = "1/esp_to_ui/data_realtime";
