@@ -391,8 +391,8 @@ function LoginRegister() {
                             <div id="icon-login" className="wrap-icon-login hidden">
                                 <FontAwesomeIcon icon={faFaceSmileWink} className="login-icon" />
                             </div>
-                            <div alt="logo" className="logo-img" style={{ backgroundImage: `url(${logo})` }} />
-                            <span className="logo-name">GSocial</span>
+                            <div alt="logo" className="logo-img" style={{ backgroundImage: `url(${logo})`, borderRadius: '50%' }} />
+                            <span className="logo-name">for Agri</span>
                         </div>
                         <div className="left-wrapper-bottom">
                             <h2 className="slogan">Gsocial giúp bạn kết nối và chia sẻ đến tất cả mọi người.</h2>
