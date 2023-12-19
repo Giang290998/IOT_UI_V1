@@ -63,27 +63,31 @@ const SensorSlice = createSlice({
         })
         builder.addCase(GetAllDeviceData.fulfilled, (state, action) => {
             state.status = 'OK'
-            const sensor_data = action.payload;
-            state.sensor_data = sensor_data;
+            let data = action.payload;
+            
+            if (data) {
+                const sortByTime = (a, b) => a.time - b.time;
+                let sensor_data = data.sort(sortByTime);
+                state.sensor_data = sensor_data;
 
-            let data_temp = [];
-            let data_pH = [];
-            let data_concentration = [];
-            let data_water = [];
-            let data_time = [];
-            for (let i = 0; i < sensor_data.length; i++) {
-                data_temp.push(sensor_data[i].data[0]);
-                data_concentration.push(sensor_data[i].data[1]);
-                data_pH.push(sensor_data[i].data[2]);
-                data_water.push(sensor_data[i].data[3]);
-                data_time.push(convertTimeFormat(sensor_data[i].time));
+                let data_temp = [];
+                let data_pH = [];
+                let data_concentration = [];
+                let data_water = [];
+                let data_time = [];
+                for (let i = 0; i < sensor_data.length; i++) {
+                    data_temp.push(sensor_data[i].data[0]);
+                    data_concentration.push(sensor_data[i].data[1]);
+                    data_pH.push(sensor_data[i].data[2]);
+                    data_water.push(sensor_data[i].data[3]);
+                    data_time.push(convertTimeFormat(sensor_data[i].time));
+                }
+
+                state.temp = { data: data_temp, time: data_time, avg: calculateAverage(data_temp) }
+                state.pH = { data: data_pH, time: data_time, avg: calculateAverage(data_pH) }
+                state.concentration = { data: data_concentration, time: data_time, avg: calculateAverage(data_concentration) }
+                state.water = { data: data_water, time: data_time, avg: calculateAverage(data_water) }
             }
-
-            state.temp = { data: data_temp, time: data_time, avg: calculateAverage(data_temp) }
-            state.pH = { data: data_pH, time: data_time, avg: calculateAverage(data_pH) }
-            state.concentration = { data: data_concentration, time: data_time, avg: calculateAverage(data_concentration) }
-            state.water = { data: data_water, time: data_time, avg: calculateAverage(data_water) }
-
         })
         builder.addCase(GetAllDeviceData.rejected, (state) => {
             state.status = 'failed'

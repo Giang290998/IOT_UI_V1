@@ -1,6 +1,4 @@
-import Cookies from "js-cookie";
 import axiosClient from "./axiosClient";
-import axios from "axios";
 
 const DeviceDataAPI = {
     GetAllDeviceData : () => {

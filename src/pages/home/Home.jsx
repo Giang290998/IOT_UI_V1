@@ -16,6 +16,7 @@ import mqttClient from '../../utils/mqttClient.js';
 import TextInput from '../../components/text-input/TextInput.jsx';
 import store from '../../redux/store.js';
 import { GetAllAlarm, GetAllDeviceData } from '../../redux/sensorSlice.js';
+import { GetProjectDetail } from '../../redux/projectSlice.js';
 
 function Home() {
     const $ = document.querySelector.bind(document);
@@ -32,6 +33,7 @@ function Home() {
 
     // mqttClient.subscribe("1/esp_to_ui/data_realtime");
     useEffect(() => {
+        store.dispatch(GetProjectDetail())
         store.dispatch(GetAllDeviceData())
         store.dispatch(GetAllAlarm())
     }, [])

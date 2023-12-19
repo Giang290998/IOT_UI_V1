@@ -59,7 +59,7 @@ function Leftbar() {
                         <div className="icon-wapper">
                             <FontAwesomeIcon icon={faNewspaper} className="icon friend-icon" />
                         </div>
-                        <span className="friend-title">Báo cáo tuần</span>
+                        <span className="friend-title">Báo cáo dữ liệu</span>
                     </div>
                 </li>
                 <li id="iot-left-list" className="leftbar-item">

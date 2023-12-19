@@ -5,6 +5,7 @@ import notificationSlice from "./notificationSlice";
 import postSlice from "./postSlice";
 import commentSlice from "./commentSlice";
 import sensorSlice from "./sensorSlice";
+import projectSlice from "./projectSlice";
 
 export default configureStore({
     reducer:{
@@ -14,6 +15,7 @@ export default configureStore({
         post: postSlice,
         comment: commentSlice,
         sensor: sensorSlice,
+        project: projectSlice,
     },
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({

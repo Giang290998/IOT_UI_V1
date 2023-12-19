@@ -5,7 +5,7 @@ import {
 import './manager.scss';
 import { useSelector } from 'react-redux';
 import TextInput from '../text-input/TextInput'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CircularProgress } from 'react-cssfx-loading/lib';
 import defaultAvatar from '../../assets/defaultAvatar.png';
 
@@ -37,24 +37,28 @@ function Manager() {
         }
     ]
 
-    const button = $$('div[id="manager-action-btn"]');
-    const dropDown = $$('ul[id="action-list"]');
+    useEffect(() => {
+        const button = $$('div[id="manager-action-btn"]');
+        const dropDown = $$('ul[id="action-list"]');
 
-    button.forEach((btn, index) => {
-        btn.addEventListener('click', () => {
-            dropDown.forEach((ul, ind) => {
-                if (index === ind) {
-                    if (ul.classList.contains("visible")) {
-                        ul.classList.remove("visible")
+        button.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                dropDown.forEach((ul, ind) => {
+                    if (index === ind) {
+                        if (ul.classList.contains("visible")) {
+                            ul.classList.remove("visible")
+                        } else {
+                            ul.classList.add("visible")
+                        }
                     } else {
-                        ul.classList.add("visible")
+                        ul.classList.remove("visible")
                     }
-                } else {
-                    ul.classList.remove("visible")
-                }
-            })
+                })
+            });
         });
-    });
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     function exitAddStaffModal() {
         const addStaffModal = $('div[id="add-staff-modal"]');

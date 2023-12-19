@@ -414,7 +414,7 @@ function Topbar({ reRenderApp
                         </div>
                     </div>
                 </div>
-                <div className="col l-6 m-5 s-5 topbar-center">
+                {/* <div className="col l-6 m-5 s-5 topbar-center">
                     <div className="wrap-top-bar-center-nav-list">
                         <ul className="top-bar-center-nav-list">
                             <li role="button" className="btn-circle top-bar-center-item-small-scale">
@@ -446,7 +446,7 @@ function Topbar({ reRenderApp
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> */}
                 <div className="col l-3 m-3 s-3 topbar-right">
                     {/* <div
                         className="btn-circle topbar__friend-request"
@@ -489,7 +489,7 @@ function Topbar({ reRenderApp
                             }
                         </div>
                     </div> */}
-                    <div className="btn-circle topbar__notification">
+                    {/* <div className="btn-circle topbar__notification">
                         <div id="notification-btn" className="wrapper-icon disable-select">
                             <lord-icon
                                 id="lord-icon-custom"
@@ -499,11 +499,11 @@ function Topbar({ reRenderApp
                                 style={{ width: 28, height: 28 }}
                             >
                             </lord-icon>
-                            {/* <span className="topbar__not-seen disable-select">
+                            <span className="topbar__not-seen disable-select">
                                 <p className="not-seen-number">99</p>
-                            </span> */}
+                            </span>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="btn-circle topbar__user-setting">
                         <div id="setting-btn" className="wrapper-icon disable-select">
                             <img src={currentUserAvatar ? currentUserAvatar : defaultAvatar} alt="" className="current-user-avatar" />

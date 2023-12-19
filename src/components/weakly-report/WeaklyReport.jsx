@@ -2,16 +2,25 @@ import LineChart from "../line-chart/LineChart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTemperatureThreeQuarters, faWandMagicSparkles, faFlaskVial, faDroplet } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
-import { memo } from "react";
+import { memo, useState } from "react";
+import "./weaklyreport.scss";
+import { setToast } from "../toast/ToastContainer";
 const ExcelJS = require('exceljs');
+const moment = require('moment-timezone');
 
 function WeaklyReport() {
+    const themeMode = useSelector(state => state.auth.themeMode) === 'dark' ? ' dark' : '';
+
     const temp = useSelector(state => state.sensor.temp);
     const pH = useSelector(state => state.sensor.pH);
     const concentration = useSelector(state => state.sensor.concentration);
     const water = useSelector(state => state.sensor.water);
-
     const sensor_data = useSelector(state => state.sensor.sensor_data);
+
+    const [tempFilter, setTempFilter] = useState(temp);
+    const [pHFilter, setPHFilter] = useState(pH);
+    const [concentrationFilter, setConcentrationFilter] = useState(concentration);
+    const [waterFilter, setWaterFilter] = useState(water);
 
     async function exportToExcel(dataArray, sheetName, fileName) {
         // Create a new workbook
@@ -72,39 +81,99 @@ function WeaklyReport() {
             ["Thời gian", "Nhiệt độ", "pH", "Nồng độ chất tan", "Mực nước"]
         ];
 
-        for (let i = 0; i < sensor_data.length; i++) {
-            let data_insert = [sensor_data[i].time, ...sensor_data[i].data];
+        if (tempFilter.data.length === 0) {
+            setToast(
+                null,
+                "Không có dữ liệu để tải xuống!",
+                "warning",
+                3000,
+                themeMode === ' dark' ? true : false
+            )
+            return;
+        }
+
+        for (let i = 0; i < tempFilter.data.length; i++) {
+            let data_insert = [sensor_data[i].time, tempFilter.data[i], pHFilter.data[i], concentrationFilter.data[i], waterFilter.data[i]];
             data.push(data_insert);
         }
         exportToExcel(data, "sensor", `REPORT_${GetCurrentDate()}.xlsx`)
     }
 
+    function filterRecentDays(sensor, days) {
+        const currentDate = (moment()).date();
+        let sensor_filter = { ...sensor, data: [], time: [] };
+        for (let i = 0; i < sensor.time.length; i++) {
+            const [day, time] = sensor.time[i].split(' - ');
+            if (parseInt(day) + days >= currentDate) {
+                sensor_filter.data.push(sensor.data[i]);
+                sensor_filter.time.push(sensor.time[i]);
+            }
+        }
+
+        return sensor_filter;
+    }
+
+    function handleFilterSensorData(day) {
+        setTempFilter(filterRecentDays(temp, day));
+        setPHFilter(filterRecentDays(pH, day));
+        setConcentrationFilter(filterRecentDays(concentration, day));
+        setWaterFilter(filterRecentDays(water, day));
+    }
+
     return (
         <div>
-            <div
-                className="btn btn--primary btn-excel-download" onClick={() => HandleExportExcel()}
-                style={{ backgroundColor: 'rgb(0, 136, 255)', width: '100%', height: '40px', fontSize: '20px' }}
-            >Tải xuống file EXCEL</div>
+            <div className="wrap-btn-weakly-report"
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingLeft: '10px' }}
+            >
+                <label class="dropdown disable-select"
+                >
+                    <div class="dd-button disable-select">
+                        Sắp xếp theo
+                    </div>
+                    <input type="checkbox" class="dd-input" id="test" />
+                    <ul class="dd-menu disable-select">
+                        <li
+                            onClick={() => handleFilterSensorData(1)}
+                        >Hôm nay</li>
+                        <li
+                            onClick={() => handleFilterSensorData(7)}
+                        >7 ngày gần nhất</li>
+                        <li
+                            onClick={() => handleFilterSensorData(30)}
+                        >30 ngày gần nhất</li>
+                        <li class="divider"></li>
+                        {/* <li>
+                            <a href="http://rane.io">Link to Rane.io</a>
+                        </li> */}
+                    </ul>
+
+                </label>
+                <div
+                    className="btn btn--primary btn-excel-download" onClick={() => HandleExportExcel()}
+                    style={{ backgroundColor: 'rgb(0, 136, 255)', width: '30%', height: '40px', fontSize: '20px' }}
+                >Tải xuống file EXCEL</div>
+            </div>
+
             <LineChart
-                data={temp.data} label={temp.time} avg={temp.avg}
+                data={tempFilter.data} label={tempFilter.time} avg={tempFilter.avg}
                 borderColor={"blue"} icon={<FontAwesomeIcon icon={faTemperatureThreeQuarters} />}
                 icon_color={'blue'} icon_size={'30px'} title={'Nhiệt độ'} title_size={'14px'}
                 title_weight={400} content={'28 °C'} content_size={'24px'} content_weight={500}
             />
             <LineChart
-                data={pH.data} label={pH.time} avg={pH.avg}
+                data={pHFilter.data} label={pHFilter.time} avg={pHFilter.avg}
                 borderColor={"red"} icon={<FontAwesomeIcon icon={faWandMagicSparkles} />}
                 icon_color={'red'} icon_size={'30px'} title={'pH'} title_size={'14px'}
                 title_weight={400} content={'28 °C'} content_size={'24px'} content_weight={500}
             />
             <LineChart
-                data={concentration.data} label={concentration.time} avg={concentration.avg}
+                data={concentrationFilter.data} label={concentrationFilter.time} avg={concentrationFilter.avg}
                 borderColor={"green"} icon={<FontAwesomeIcon icon={faFlaskVial} />}
                 icon_color={'green'} icon_size={'30px'} title={'Nồng độ chất tan'} title_size={'14px'}
                 title_weight={400} content={'28 °C'} content_size={'24px'} content_weight={500}
             />
             <LineChart
-                data={water.data} label={water.time} avg={water.avg}
+                data={waterFilter.data} label={waterFilter.time} avg={waterFilter.avg}
                 borderColor={"purple"} icon={<FontAwesomeIcon icon={faDroplet} />}
                 icon_color={'purple'} icon_size={'30px'} title={'Mực nước'} title_size={'14px'}
                 title_weight={400} content={'28 °C'} content_size={'24px'} content_weight={500}

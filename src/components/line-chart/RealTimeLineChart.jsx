@@ -79,7 +79,9 @@ function RealTimeLineChart(
                         paddingLeft: content_padding_left ?? '6px'
                     }}>
                         {
-                            parseFloat(data[data.length - 1]) + " " + (unit ? unit : "")
+                            data[data.length - 1] ? parseFloat(data[data.length - 1]) : "--"
+                                + " " +
+                                (unit ? unit : "")
                         }
                     </p>
                 </span>
