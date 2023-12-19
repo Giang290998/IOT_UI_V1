@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import store from '../../redux/store';
 import { setPage } from '../../redux/authSlice';
 import { memo, useEffect } from 'react';
+import BK from "../../assets/BK.png";
 
 function Leftbar() {
     const themeMode = useSelector(state => state.auth.themeMode) === 'dark' ? ' dark' : '';
@@ -45,6 +46,9 @@ function Leftbar() {
     return (
         <div className={"leftbar-wrapper disable-select " + themeMode}>
             {/* <Weather /> */}
+            <div className="" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img src={BK} alt="" style={{ width: '200px' }} />
+            </div>
             <ul className="leftbar-list">
                 <li id="iot-left-list" className="leftbar-item select" onClick={() => handleClickLeftList()}>
                     <div className="leftbar-item-wapper">
