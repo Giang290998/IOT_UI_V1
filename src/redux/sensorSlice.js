@@ -98,7 +98,8 @@ const SensorSlice = createSlice({
         })
         builder.addCase(GetAllAlarm.fulfilled, (state, action) => {
             state.status = 'OK'
-            state.alarm = action.payload
+            let alarm_sort = bubbleSortAlarm(action.payload);
+            state.alarm = alarm_sort;
         })
         builder.addCase(GetAllAlarm.rejected, (state) => {
             state.status = 'failed'
@@ -162,5 +163,23 @@ function calculateAverage(array) {
     const average = sum / filteredArray.length;
 
     return average;
+}
+
+function bubbleSortAlarm(arr) {
+    const n = arr.length;
+
+    for (let i = 0; i < n - 1; i++) {
+        for (let j = 0; j < n - i - 1; j++) {
+            // So sánh các phần tử liên tiếp và hoán đổi chúng nếu chúng không đúng thứ tự
+            if (moment(arr[j].time).valueOf() > moment(arr[j + 1].time).valueOf()) {
+                // Hoán đổi
+                const temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+
+    return arr;
 }
   
