@@ -15,8 +15,10 @@ ChartJS.register(
 );
 
 function RealTimeLineChart(
-    { data, title_size, title_weight, title, icon, icon_color, icon_size, unit,
-        label, content_size, content_weight, content_padding_left, borderColor }
+    {
+        data, title_size, title_weight, title, icon, icon_color, icon_size, unit, max_y_axis,
+        label, content_size, content_weight, content_padding_left, borderColor
+    }
 ) {
     const themeMode = useSelector(state => state.auth.themeMode) === 'dark' ? ' dark' : '';
     const [chartData, setChartData] = useState({
@@ -51,20 +53,13 @@ function RealTimeLineChart(
                 position: 'top',
             }
         },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: max_y_axis ? max_y_axis : null,
+            },
+        },
     };
-    // const options = {
-    //     responsive: false,
-    //     scales: {
-    //         yAxes: [
-    //             {
-    //                 ticks: {
-    //                     suggestedMin: 0, // Giá trị tối thiểu trên trục y
-    //                     suggestedMax: 1000, // Giá trị tối đa trên trục y
-    //                 },
-    //             },
-    //         ],
-    //     },
-    // };
 
     return (
         <div className={"chart" + themeMode}>

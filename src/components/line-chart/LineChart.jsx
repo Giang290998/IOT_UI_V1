@@ -26,7 +26,7 @@ ChartJS.register(
 
 
 function LineChart(
-    { data, label, borderColor, backgroundColor, icon, icon_color, icon_size,
+    { data, label, borderColor, backgroundColor, icon, icon_color, icon_size, max_y_axis,
         title, avg, title_size, title_weight, content_size, content_weight, content_padding_left }
 ) {
 
@@ -38,6 +38,12 @@ function LineChart(
             legend: {
                 position: 'top',
             }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: max_y_axis ? max_y_axis : null,
+            },
         },
     };
 

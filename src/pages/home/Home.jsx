@@ -27,11 +27,9 @@ function Home() {
     const RT_pH = useSelector(state => state.sensor.RT_pH);
     const RT_concentration = useSelector(state => state.sensor.RT_concentration);
     const RT_water = useSelector(state => state.sensor.RT_water);
-    // const content = useSelector(state => state.auth.content)
     let page = useSelector(state => state.auth.page)
     document.title = 'AgriIOT - Home'
 
-    // mqttClient.subscribe("1/esp_to_ui/data_realtime");
     useEffect(() => {
         store.dispatch(GetProjectDetail())
         store.dispatch(GetAllDeviceData())
@@ -80,37 +78,33 @@ function Home() {
                             <>
                                 <div className="" style={{ display: 'flex' }}>
                                     <RealTimeLineChart
-                                        data={RT_temp.data} label={RT_temp.time} unit={"°C"}
+                                        data={RT_temp.data} label={RT_temp.time} unit={"°C"} max_y_axis={45}
                                         borderColor={"blue"} icon={<FontAwesomeIcon icon={faTemperatureThreeQuarters} />}
                                         icon_color={'blue'} icon_size={'30px'} title={'Nhiệt độ'} title_size={'14px'}
                                         title_weight={400}
-                                        // content={`${dataSensor} °C`} 
                                         content_size={'24px'} content_weight={500}
                                     />
                                     <RealTimeLineChart
-                                        data={RT_pH.data} label={RT_pH.time}
+                                        data={RT_pH.data} label={RT_pH.time} max_y_axis={14}
                                         borderColor={"red"} icon={<FontAwesomeIcon icon={faWandMagicSparkles} />}
                                         icon_color={'red'} icon_size={'30px'} title={'pH'} title_size={'14px'}
                                         title_weight={400}
-                                        // content={`${dataSensor + getRandomInteger(50, 100)}`}
                                         content_size={'24px'} content_weight={500}
                                     />
                                 </div>
                                 <div className="" style={{ display: 'flex', width: '100%' }}>
                                     <RealTimeLineChart
-                                        data={RT_concentration.data} label={RT_concentration.time} unit={"ppm"}
+                                        data={RT_concentration.data} label={RT_concentration.time} unit={"ppm"} max_y_axis={2000}
                                         borderColor={"green"} icon={<FontAwesomeIcon icon={faFlaskVial} />}
                                         icon_color={'green'} icon_size={'30px'} title={'Nồng độ chất tan'} title_size={'14px'}
                                         title_weight={400}
-                                        // content={`${dataSensor + getRandomInteger(50, 100)}`}
                                         content_size={'24px'} content_weight={500}
                                     />
                                     <RealTimeLineChart
-                                        data={RT_water.data} label={RT_water.time}
+                                        data={RT_water.data} label={RT_water.time} max_y_axis={12}
                                         borderColor={"purple"} icon={<FontAwesomeIcon icon={faDroplet} />}
                                         icon_color={'purple'} icon_size={'30px'} title={'Mực nước'} title_size={'14px'}
                                         title_weight={400}
-                                        // content={`${dataSensor + getRandomInteger(50, 100)}`}
                                         content_size={'24px'} content_weight={500}
                                     />
                                 </div>
@@ -127,7 +121,6 @@ function Home() {
                                         <div className="modal__overlay">
                                         </div>
                                         <div className="modal__body">
-                                            {/* Register form */}
                                             <div className="register disable-select">
                                                 <div className="register__container">
                                                     <div className="register-top">
@@ -144,14 +137,12 @@ function Home() {
                                                         <div className="create-account-wrapper">
                                                             <TextInput
                                                                 type='text' placeholder='ppm' inputId="tds" title="Nhập nồng độ"
-                                                                // errorStatus={errorStatusId}
                                                                 onChange={handleChangeTDS}
                                                             />
                                                         </div>
                                                         <div className="create-account-wrapper">
                                                             <TextInput
                                                                 type='text' placeholder='pH' inputId="ph" title="Nhập pH"
-                                                                // errorStatus={errorStatusId}
                                                                 onChange={handleChangePH}
                                                             />
                                                         </div>
@@ -179,19 +170,7 @@ function Home() {
                         {
                             page === 3 && <Manager />
                         }
-
-
-
-                        {/* {
-                            content === 'post' && <Newsfeed />
-                        }
-                        {
-                            content === 'short-video' && <ShortVideo />
-                        } */}
                     </div>
-                    {/* <div className="col l-3 m-4 s-0 right-bar">
-                    </div>
-                    <Rightbar /> */}
                 </div>
             </div>
         </div>
