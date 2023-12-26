@@ -1,4 +1,4 @@
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, scales } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { memo, useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
@@ -17,7 +17,7 @@ ChartJS.register(
 function RealTimeLineChart(
     {
         data, title_size, title_weight, title, icon, icon_color, icon_size, unit, max_y_axis,
-        label, content_size, content_weight, content_padding_left, borderColor
+        label, content_size, content_weight, content_padding_left, borderColor, step_size, min_y_axis
     }
 ) {
     const themeMode = useSelector(state => state.auth.themeMode) === 'dark' ? ' dark' : '';
@@ -57,6 +57,7 @@ function RealTimeLineChart(
             y: {
                 beginAtZero: true,
                 max: max_y_axis ? max_y_axis : null,
+                stepSize: step_size ? step_size : null,
             },
         },
     };
@@ -81,7 +82,26 @@ function RealTimeLineChart(
                     </p>
                 </span>
             </div>
-            <Line options={options} data={chartData} />
+            <Line options={
+                {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: max_y_axis ? max_y_axis : null,
+                            min: min_y_axis ? min_y_axis : null,
+                            ticks: {
+                                stepSize: step_size ? step_size : null,
+                            }
+                        },
+                    },
+                }
+            } data={chartData} />
         </div>
     )
 }

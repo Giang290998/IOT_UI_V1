@@ -1,9 +1,6 @@
 import { memo, useCallback, useState } from 'react';
 import './home.scss';
 import Leftbar from '../../components/leftbar/Leftbar.jsx';
-// import Rightbar from '../../components/rightbar/Rightbar';
-// import Newsfeed from '../../components/newsfeed/Newsfeed';
-// import ShortVideo from '../../components/short-video/ShortVideo';
 import RealTimeLineChart from '../../components/line-chart/RealTimeLineChart.jsx';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -78,14 +75,16 @@ function Home() {
                             <>
                                 <div className="" style={{ display: 'flex' }}>
                                     <RealTimeLineChart
-                                        data={RT_temp.data} label={RT_temp.time} unit={"°C"} max_y_axis={45}
+                                        data={RT_temp.data} label={RT_temp.time} unit={"°C"} max_y_axis={RT_temp.data[RT_temp.data.length - 1] + 0.5}
+                                        step_size={0.25} min_y_axis={RT_temp.data[RT_temp.data.length - 1] - 0.5}
                                         borderColor={"blue"} icon={<FontAwesomeIcon icon={faTemperatureThreeQuarters} />}
                                         icon_color={'blue'} icon_size={'30px'} title={'Nhiệt độ'} title_size={'14px'}
                                         title_weight={400}
                                         content_size={'24px'} content_weight={500}
                                     />
                                     <RealTimeLineChart
-                                        data={RT_pH.data} label={RT_pH.time} max_y_axis={14}
+                                        data={RT_pH.data} label={RT_pH.time}
+                                        max_y_axis={RT_pH.data[RT_pH.data.length - 1] + 0.5} min_y_axis={RT_pH.data[RT_pH.data.length - 1] - 0.5}
                                         borderColor={"red"} icon={<FontAwesomeIcon icon={faWandMagicSparkles} />}
                                         icon_color={'red'} icon_size={'30px'} title={'pH'} title_size={'14px'}
                                         title_weight={400}
@@ -94,14 +93,16 @@ function Home() {
                                 </div>
                                 <div className="" style={{ display: 'flex', width: '100%' }}>
                                     <RealTimeLineChart
-                                        data={RT_concentration.data} label={RT_concentration.time} unit={"ppm"} max_y_axis={2000}
+                                        data={RT_concentration.data} label={RT_concentration.time} unit={"ppm"}
+                                        max_y_axis={RT_concentration.data[RT_concentration.data.length - 1] + 100} min_y_axis={0}
                                         borderColor={"green"} icon={<FontAwesomeIcon icon={faFlaskVial} />}
                                         icon_color={'green'} icon_size={'30px'} title={'Nồng độ chất tan'} title_size={'14px'}
                                         title_weight={400}
                                         content_size={'24px'} content_weight={500}
                                     />
                                     <RealTimeLineChart
-                                        data={RT_water.data} label={RT_water.time} max_y_axis={12}
+                                        data={RT_water.data} label={RT_water.time}
+                                        max_y_axis={10} min_y_axis={0}
                                         borderColor={"purple"} icon={<FontAwesomeIcon icon={faDroplet} />}
                                         icon_color={'purple'} icon_size={'30px'} title={'Mực nước'} title_size={'14px'}
                                         title_weight={400}

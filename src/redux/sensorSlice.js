@@ -80,13 +80,55 @@ const SensorSlice = createSlice({
                     data_concentration.push(sensor_data[i].data[1]);
                     data_pH.push(sensor_data[i].data[2]);
                     data_water.push(sensor_data[i].data[3]);
-                    data_time.push(convertTimeFormat(sensor_data[i].time));
+                    data_time.push(sensor_data[i].time);
                 }
+                
+                let data_temp_obj = { data: data_temp, time: data_time, avg: calculateAverage(data_temp) };
+                let data_pH_obj = { data: data_pH, time: data_time, avg: calculateAverage(data_pH) };
+                let data_concentration_obj =  { data: data_concentration, time: data_time, avg: calculateAverage(data_concentration) };
+                let data_water_obj = { data: data_water, time: data_time, avg: calculateAverage(data_water) };
 
-                state.temp = { data: data_temp, time: data_time, avg: calculateAverage(data_temp) }
-                state.pH = { data: data_pH, time: data_time, avg: calculateAverage(data_pH) }
-                state.concentration = { data: data_concentration, time: data_time, avg: calculateAverage(data_concentration) }
-                state.water = { data: data_water, time: data_time, avg: calculateAverage(data_water) }
+                function bubbleSortDataSensor(obj) {
+                    const n = obj.data.length;
+                    let time_num_arr = [];
+                    for (let i = 0; i < n; i++) {
+                        time_num_arr.push(moment(obj.time[i]).valueOf())
+                    }
+
+                    let obj_temp = { ...obj, time: time_num_arr }
+                
+                    for (let i = 0; i < n - 1; i++) {
+                        for (let j = 0; j < n - i - 1; j++) {
+                            // So sánh các phần tử liên tiếp và hoán đổi chúng nếu chúng không đúng thứ tự
+                            if (obj_temp.time[j] > obj_temp.time[j + 1]) {
+                                // Hoán đổi
+                                const temp_time = obj_temp.time[j];
+                                obj_temp.time[j] = obj_temp.time[j + 1];
+                                obj_temp.time[j + 1] = temp_time;
+
+                                const temp_data = obj_temp.data[j];
+                                obj_temp.data[j] = obj_temp.data[j + 1];
+                                obj_temp.data[j + 1] = temp_data;
+                            }
+                        }
+                    }
+                
+                    return obj_temp;
+                }
+                let data_temp_sort = bubbleSortDataSensor(data_temp_obj);
+                let data_pH_sort = bubbleSortDataSensor(data_pH_obj);
+                let data_concentration_sort = bubbleSortDataSensor(data_concentration_obj);
+                let data_water_sort = bubbleSortDataSensor(data_water_obj);
+
+                data_temp_sort.time = convertTimeFormatArr(data_temp_sort.time);
+                data_pH_sort.time = convertTimeFormatArr(data_pH_sort.time);
+                data_concentration_sort.time = convertTimeFormatArr(data_concentration_sort.time);
+                data_water_sort.time = convertTimeFormatArr(data_water_sort.time);
+
+                state.temp = data_temp_sort
+                state.pH = data_pH_sort
+                state.concentration = data_concentration_sort
+                state.water = data_water_sort
             }
         })
         builder.addCase(GetAllDeviceData.rejected, (state) => {
@@ -128,23 +170,29 @@ export default SensorSlice.reducer;
 
 const formatNumber = (num) => (num < 10 ? `0${num}` : num);
 
-function convertTimeFormat(originalTimeString) {
-    // Tạo đối tượng Moment từ chuỗi thời gian ban đầu
-    const originalMoment = moment(originalTimeString);
-  
-    // Chuyển đổi sang múi giờ GMT+7
-    const gmt7Moment = originalMoment.tz('Asia/Ho_Chi_Minh');
-  
-    // Lấy thông tin ngày, giờ, phút và giây từ đối tượng Moment
-    const day = gmt7Moment.date();
-    const hours = gmt7Moment.hours();
-    const minutes = gmt7Moment.minutes();
-    const seconds = gmt7Moment.seconds();
-  
-    // Định dạng lại chuỗi theo định dạng mong muốn
-    const formattedString = `${formatNumber(day)} - ${formatNumber(hours)}:${formatNumber(minutes)}:${formatNumber(seconds)}`;
-  
-    return formattedString;
+function convertTimeFormatArr(originalTimeStringArr) {
+    if (originalTimeStringArr.length === 0) return;
+
+    let formattedStringTime = [];
+    for (let i = 0; i < originalTimeStringArr.length; i++) {
+        // Tạo đối tượng Moment từ chuỗi thời gian ban đầu
+        const originalMoment = moment(originalTimeStringArr[i]);
+    
+        // Chuyển đổi sang múi giờ GMT+7
+        const gmt7Moment = originalMoment.tz('Asia/Ho_Chi_Minh');
+    
+        // Lấy thông tin ngày, giờ, phút và giây từ đối tượng Moment
+        const day = gmt7Moment.date();
+        const hours = gmt7Moment.hours();
+        const minutes = gmt7Moment.minutes();
+        const seconds = gmt7Moment.seconds();
+    
+        // Định dạng lại chuỗi theo định dạng mong muốn
+        const formattedString = `${formatNumber(day)} - ${formatNumber(hours)}:${formatNumber(minutes)}:${formatNumber(seconds)}`;
+    
+        formattedStringTime.push(formattedString);
+    }
+    return formattedStringTime;
 }
 
 function calculateAverage(array) {
