@@ -14,7 +14,6 @@ const userAPI = {
     },
 
     getOTP : () => {
-        console.log(Cookies.get("access_token"));
         const url = `/users/otp/send`
         const BASE_URL = process.env.REACT_APP_BASE_URL_API
         const axiosCustom = axios.create({ 
@@ -34,17 +33,8 @@ const userAPI = {
     },
 
     loginUserWithRememberToken : (persistent_token) => {
-        const url = `/users/login/persistent`
-        const BASE_URL = process.env.REACT_APP_BASE_URL_API
-        const axiosCustom = axios.create({ 
-            baseURL: BASE_URL,
-            headers: {
-                'content-type': 'application/json',
-                'persistent_token':`Bearer ${persistent_token}`
-            },
-            withCredentials: true,
-        })
-        return axiosCustom.get(url)
+        const url = `/users/login/persistent?token=${persistent_token}`
+        return axiosClient.get(url)
     },
 
     loginWithThirdPartyInformation : (email) => {
