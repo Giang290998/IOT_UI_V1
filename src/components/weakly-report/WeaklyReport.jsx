@@ -1,6 +1,6 @@
 import LineChart from "../line-chart/LineChart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTemperatureThreeQuarters, faWandMagicSparkles, faFlaskVial, faDroplet } from "@fortawesome/free-solid-svg-icons";
+import { faTemperatureThreeQuarters, faWandMagicSparkles, faFlaskVial, faDroplet, faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { memo, useState } from "react";
 import "./weaklyreport.scss";
@@ -17,10 +17,12 @@ function WeaklyReport() {
     const water = useSelector(state => state.sensor.water);
     const sensor_data = useSelector(state => state.sensor.sensor_data);
 
-    const [tempFilter, setTempFilter] = useState(temp);
-    const [pHFilter, setPHFilter] = useState(pH);
-    const [concentrationFilter, setConcentrationFilter] = useState(concentration);
-    const [waterFilter, setWaterFilter] = useState(water);
+    const [tempFilter, setTempFilter] = useState(filterRecentDays(temp, 1));
+    const [pHFilter, setPHFilter] = useState(filterRecentDays(pH, 1));
+    const [concentrationFilter, setConcentrationFilter] = useState(filterRecentDays(concentration, 1));
+    const [waterFilter, setWaterFilter] = useState(filterRecentDays(water, 1));
+
+    const [dayFilter, setDayFilter] = useState(1);
 
     async function exportToExcel(dataArray, sheetName, fileName) {
         // Create a new workbook
@@ -100,24 +102,70 @@ function WeaklyReport() {
     }
 
     function filterRecentDays(sensor, days) {
-        const currentDate = (moment()).date();
+        const currentDate = moment().valueOf();
         let sensor_filter = { ...sensor, data: [], time: [] };
         for (let i = 0; i < sensor.time.length; i++) {
-            const [day, time] = sensor.time[i].split(' - ');
-            if (parseInt(day) + days >= currentDate) {
+            if (sensor.time[i] + days * 86400000 > currentDate) {
                 sensor_filter.data.push(sensor.data[i]);
                 sensor_filter.time.push(sensor.time[i]);
             }
         }
-
+        sensor_filter.time = convertTimeFormatArr(sensor_filter.time);
+        sensor_filter.avg = calculateAverage(sensor_filter.data);
         return sensor_filter;
     }
 
     function handleFilterSensorData(day) {
+        setDayFilter(day);
         setTempFilter(filterRecentDays(temp, day));
         setPHFilter(filterRecentDays(pH, day));
         setConcentrationFilter(filterRecentDays(concentration, day));
         setWaterFilter(filterRecentDays(water, day));
+    }
+
+    function convertTimeFormatArr(originalTimeStringArr) {
+        if (originalTimeStringArr.length === 0) return;
+
+        let formattedStringTime = [];
+        for (let i = 0; i < originalTimeStringArr.length; i++) {
+            // Tạo đối tượng Moment từ chuỗi thời gian ban đầu
+            const originalMoment = moment(originalTimeStringArr[i]);
+
+            // Chuyển đổi sang múi giờ GMT+7
+            const gmt7Moment = originalMoment.tz('Asia/Ho_Chi_Minh');
+
+            // Lấy thông tin ngày, giờ, phút và giây từ đối tượng Moment
+            const day = gmt7Moment.date();
+            const hours = gmt7Moment.hours();
+            const minutes = gmt7Moment.minutes();
+            const seconds = gmt7Moment.seconds();
+
+            // Định dạng lại chuỗi theo định dạng mong muốn
+            const formattedString = `${formatNumber(day)} - ${formatNumber(hours)}:${formatNumber(minutes)}:${formatNumber(seconds)}`;
+
+            formattedStringTime.push(formattedString);
+        }
+        return formattedStringTime;
+    }
+
+    const formatNumber = (num) => (num < 10 ? `0${num}` : num);
+
+    function calculateAverage(array) {
+        // Lọc ra các phần tử không phải null hoặc undefined
+        const filteredArray = array.filter(element => element !== null && element !== undefined);
+
+        // Kiểm tra xem mảng có phần tử không
+        if (filteredArray.length === 0) {
+            return 0; // Trả về 0 nếu mảng sau khi lọc không còn phần tử để tránh chia cho 0
+        }
+
+        // Chuyển đổi chuỗi thành số và tính tổng
+        const sum = filteredArray.reduce((acc, current) => acc + parseFloat(current), 0);
+
+        // Tính trung bình cộng
+        const average = sum / filteredArray.length;
+
+        return average;
     }
 
     return (
@@ -128,19 +176,27 @@ function WeaklyReport() {
                 <label class="dropdown disable-select"
                 >
                     <div class="dd-button disable-select">
-                        Sắp xếp theo
+                        {
+                            `${dayFilter} ngày trước`
+                        }
                     </div>
                     <input type="checkbox" class="dd-input" id="test" />
                     <ul class="dd-menu disable-select">
                         <li
                             onClick={() => handleFilterSensorData(1)}
-                        >Hôm nay</li>
+                        >1 ngày trước</li>
+                        <li
+                            onClick={() => handleFilterSensorData(3)}
+                        >3 ngày trước</li>
                         <li
                             onClick={() => handleFilterSensorData(7)}
-                        >7 ngày gần nhất</li>
+                        >7 ngày trước</li>
+                        <li
+                            onClick={() => handleFilterSensorData(14)}
+                        >14 ngày trước</li>
                         <li
                             onClick={() => handleFilterSensorData(30)}
-                        >30 ngày gần nhất</li>
+                        >30 ngày trước</li>
                         <li class="divider"></li>
                         {/* <li>
                             <a href="http://rane.io">Link to Rane.io</a>
@@ -151,7 +207,12 @@ function WeaklyReport() {
                 <div
                     className="btn btn--primary btn-excel-download" onClick={() => HandleExportExcel()}
                     style={{ backgroundColor: 'rgb(0, 136, 255)', width: '30%', height: '40px', fontSize: '20px' }}
-                >Tải xuống file EXCEL</div>
+                >
+                    <FontAwesomeIcon icon={faArrowDown} style={{ marginRight: '8px' }} />
+                    {
+                        `Tải xuống EXCEL (${dayFilter} ngày)`
+                    }
+                </div>
             </div>
 
             <LineChart

@@ -120,10 +120,10 @@ const SensorSlice = createSlice({
                 let data_concentration_sort = bubbleSortDataSensor(data_concentration_obj);
                 let data_water_sort = bubbleSortDataSensor(data_water_obj);
 
-                data_temp_sort.time = convertTimeFormatArr(data_temp_sort.time);
-                data_pH_sort.time = convertTimeFormatArr(data_pH_sort.time);
-                data_concentration_sort.time = convertTimeFormatArr(data_concentration_sort.time);
-                data_water_sort.time = convertTimeFormatArr(data_water_sort.time);
+                // data_temp_sort.time = convertTimeFormatArr(data_temp_sort.time);
+                // data_pH_sort.time = convertTimeFormatArr(data_pH_sort.time);
+                // data_concentration_sort.time = convertTimeFormatArr(data_concentration_sort.time);
+                // data_water_sort.time = convertTimeFormatArr(data_water_sort.time);
 
                 state.temp = data_temp_sort
                 state.pH = data_pH_sort
@@ -169,31 +169,6 @@ export const { updateRealTimeData, deleteSensorStore } = SensorSlice.actions;
 export default SensorSlice.reducer;
 
 const formatNumber = (num) => (num < 10 ? `0${num}` : num);
-
-function convertTimeFormatArr(originalTimeStringArr) {
-    if (originalTimeStringArr.length === 0) return;
-
-    let formattedStringTime = [];
-    for (let i = 0; i < originalTimeStringArr.length; i++) {
-        // Tạo đối tượng Moment từ chuỗi thời gian ban đầu
-        const originalMoment = moment(originalTimeStringArr[i]);
-    
-        // Chuyển đổi sang múi giờ GMT+7
-        const gmt7Moment = originalMoment.tz('Asia/Ho_Chi_Minh');
-    
-        // Lấy thông tin ngày, giờ, phút và giây từ đối tượng Moment
-        const day = gmt7Moment.date();
-        const hours = gmt7Moment.hours();
-        const minutes = gmt7Moment.minutes();
-        const seconds = gmt7Moment.seconds();
-    
-        // Định dạng lại chuỗi theo định dạng mong muốn
-        const formattedString = `${formatNumber(day)} - ${formatNumber(hours)}:${formatNumber(minutes)}:${formatNumber(seconds)}`;
-    
-        formattedStringTime.push(formattedString);
-    }
-    return formattedStringTime;
-}
 
 function calculateAverage(array) {
     // Lọc ra các phần tử không phải null hoặc undefined

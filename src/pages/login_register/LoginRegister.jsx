@@ -67,7 +67,7 @@ function LoginRegister() {
     let monthInYear = []
     let yearInDecade = []
     getTimeValue(dayInMonth, monthInYear, yearInDecade)
-    document.title = 'GSocial - Login'
+    document.title = 'AgriIOT - Login'
 
     if (persistent_token) {
         loginWithRememberToken(persistent_token)
@@ -395,7 +395,7 @@ function LoginRegister() {
                             <span className="logo-name">for Agri</span>
                         </div>
                         <div className="left-wrapper-bottom">
-                            <h2 className="slogan">Gsocial giúp bạn kết nối và chia sẻ đến tất cả mọi người.</h2>
+                            <h2 className="slogan">AgriIOT - Vì nông nghiệp hiện đại, năng suất, bền vững!</h2>
                         </div>
                     </div>
                     {
@@ -438,7 +438,7 @@ function LoginRegister() {
                                 className="btn btn-create-new-account" id="register-button"
                                 onClick={handleShowRegisterForm}
                             >Tạo tài khoản mới</button>
-                            <div className="wrapper-btn-another">
+                            {/* <div className="wrapper-btn-another">
                                 <FacebookLogin
                                     appId={process.env.REACT_APP_LOGIN_FACEBOOK_ID}
                                     callback={responseFacebook}
@@ -458,7 +458,7 @@ function LoginRegister() {
                                     <img src={googleIcon} alt="" className="google-img" />
                                     <p className="btn-login-desc">Đăng nhập bằng Google</p>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
