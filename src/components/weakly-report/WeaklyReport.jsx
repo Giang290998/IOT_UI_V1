@@ -148,7 +148,9 @@ function WeaklyReport() {
         return formattedStringTime;
     }
 
-    const formatNumber = (num) => (num < 10 ? `0${num}` : num);
+    function formatNumber(num) {
+        return num < 10 ? `0${num}` : num;
+    }
 
     function calculateAverage(array) {
         // Lọc ra các phần tử không phải null hoặc undefined

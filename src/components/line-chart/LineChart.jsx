@@ -67,10 +67,10 @@ function LineChart(
                     {icon}
                 </div>
                 <span className="wrap-chart-content">
-                    <p className="content-chart" style={{
+                    {/* <p className="content-chart" style={{
                         fontSize: content_size, fontWeight: content_weight,
                         paddingLeft: content_padding_left ?? '6px'
-                    }}>{avg}</p>
+                    }}>{avg}</p> */}
                 </span>
             </div>
             <Line options={options} data={dataObj} />
